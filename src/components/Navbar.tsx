@@ -2,7 +2,7 @@ export default function Navbar() {
   return (
     <div className="fixed w-full h-12 border-solid border-gray-300 border-b flex justify-center items-center text-gray-500">
       <div className="max-w-[80%] w-full flex justify-between items-center">
-        <a href="/" className="">
+        <a href="/" className="text-2xl">
           MoonEn
         </a>
         <input id="drawer" type="checkbox" className="hidden toggle" />
@@ -11,7 +11,7 @@ export default function Navbar() {
             xmlns="http://www.w3.org/2000/svg"
             fill="none"
             viewBox="0 0 24 24"
-            className="inline-block w-5 h-5 stroke-gray-500"
+            className="inline-block w-6 h-6 stroke-gray-500"
           >
             <path
               strokeLinecap="round"
