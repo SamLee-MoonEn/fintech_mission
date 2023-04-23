@@ -1,16 +1,11 @@
 import { FieldValues, SubmitHandler, useForm } from 'react-hook-form'
-import {
-  auth,
-  createUserWithEmailAndPassword,
-  signInWithEmailAndPassword,
-} from '../firebaseAuth'
+import { auth, signInWithEmailAndPassword } from '../firebaseAuth'
 
 export default function LoginMain() {
   const {
     register,
     handleSubmit,
-    watch,
-    formState: { errors },
+    formState: { isSubmitting },
   } = useForm()
 
   const login: SubmitHandler<FieldValues> = async (data) => {
@@ -85,7 +80,7 @@ export default function LoginMain() {
           </div>
         </form>
         <a
-          href="/"
+          href="/signup"
           className="mt-10 w-96 flex justify-center items-center h-10 bg-slate-700 text-white hover:bg-slate-500"
         >
           회원가입
