@@ -1,5 +1,10 @@
 import { FieldValues, SubmitHandler, useForm } from 'react-hook-form'
-import { auth, signInWithEmailAndPassword } from '../firebaseAuth'
+import {
+  auth,
+  signInWithEmailAndPassword,
+  handleGoogleLogin,
+} from '../helper/firebaseAuth'
+import googleIcon from '../assets/GoogleLogIn.png'
 
 export default function LoginMain() {
   const {
@@ -15,7 +20,6 @@ export default function LoginMain() {
         data.email,
         data.password,
       )
-      console.log(curUserInfo)
     } catch ({ code }: any) {
       switch (code) {
         case 'auth/invalid-email':
@@ -81,10 +85,19 @@ export default function LoginMain() {
         </form>
         <a
           href="/signup"
-          className="mt-10 w-96 flex justify-center items-center h-10 bg-slate-700 text-white hover:bg-slate-500"
+          className="mt-10 w-80 md:w-96 flex justify-center items-center h-10 bg-slate-700 text-white hover:bg-slate-500"
         >
           회원가입
         </a>
+        <div className="mt-4 flex justify-between items-center">
+          <button onClick={handleGoogleLogin}>
+            <img
+              src={googleIcon}
+              alt="구글 로그인"
+              className="w-20 shadow-lg rounded-full overflow-hidden"
+            />
+          </button>
+        </div>
       </div>
     </div>
   )

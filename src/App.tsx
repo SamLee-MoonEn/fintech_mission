@@ -2,7 +2,8 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom'
 
 import Navbar from './components/Navbar'
 import LoginMain from './pages/LoginMain'
-import SignUp from './pages/SignUp'
+import SignUpPage from './pages/SignUp'
+import Footer from './components/Footer'
 
 function App() {
   return (
@@ -10,9 +11,9 @@ function App() {
       <Navbar />
       <Routes>
         <Route path="/" element={<LoginMain />} />
-        <Route path="/signup" element={<SignUp />} />
+        <Route path="/signup" element={<SignUpPage />} />
       </Routes>
-      <div className="fixed bottom-0">Footer</div>
+      <Footer />
     </BrowserRouter>
   )
 }
