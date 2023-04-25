@@ -8,6 +8,7 @@ import {
   signInWithPopup,
 } from 'firebase/auth'
 import { getDatabase, ref, set } from 'firebase/database'
+
 import { createRandomAccountNum } from './helper'
 
 const {
@@ -47,7 +48,7 @@ const handleGoogleLogin = async () => {
   const provider = new GoogleAuthProvider()
   try {
     const curUserInfo = await signInWithPopup(auth, provider)
-    console.log(curUserInfo)
+    return curUserInfo
   } catch (err) {
     console.log(err)
   }

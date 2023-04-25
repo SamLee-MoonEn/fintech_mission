@@ -136,9 +136,3 @@ table {
   border-collapse: collapse;
   border-spacing: 0;
 }
-
-.toggle:checked ~ .sidebar {
-  display: block;
-  position: fixed;
-  right: 0;
-}

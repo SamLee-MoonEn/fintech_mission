@@ -9,5 +9,5 @@ export const authState = atom({
 })
 export const userState = atom({
   key: 'user',
-  default: null,
+  default: '',
 })

@@ -3,17 +3,26 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import Navbar from './components/Navbar'
 import LoginMain from './pages/LoginMain'
 import SignUpPage from './pages/SignUp'
+import MainPage from './pages/MainPage'
+import Sidebar from './components/Sidebar'
 import Footer from './components/Footer'
 
 function App() {
   return (
     <BrowserRouter>
-      <Navbar />
-      <Routes>
-        <Route path="/" element={<LoginMain />} />
-        <Route path="/signup" element={<SignUpPage />} />
-      </Routes>
-      <Footer />
+      <main className="drawer drawer-end">
+        <input id="drawer" type="checkbox" className=" drawer-toggle" />
+        <section className=" drawer-content">
+          <Navbar />
+          <Routes>
+            <Route path="/" element={<LoginMain />} />
+            <Route path="/signup" element={<SignUpPage />} />
+            <Route path="/main" element={<MainPage />} />
+          </Routes>
+          <Footer />
+        </section>
+        <Sidebar />
+      </main>
     </BrowserRouter>
   )
 }

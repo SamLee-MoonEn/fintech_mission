@@ -1,12 +1,17 @@
+import { useRecoilValue } from 'recoil'
+
+import { userState } from '../store/userInfo'
+
 export default function Navbar() {
+  const userInfo = useRecoilValue(userState)
+
   return (
     <div className="fixed w-full h-12 border-solid border-gray-300 border-b flex justify-center items-center text-gray-500">
       <div className="max-w-[80%] w-full flex justify-between items-center">
         <a href="/" className="text-2xl">
           MoonEn
         </a>
-        <input id="drawer" type="checkbox" className="hidden toggle" />
-        <label htmlFor="drawer" className=" cursor-pointer p-3">
+        <label htmlFor="drawer" className=" drawer-button cursor-pointer p-3">
           <svg
             xmlns="http://www.w3.org/2000/svg"
             fill="none"
@@ -21,10 +26,6 @@ export default function Navbar() {
             ></path>
           </svg>
         </label>
-        <ul className="sidebar hidden">
-          <li>회원가입</li>
-          <li>구글연동</li>
-        </ul>
       </div>
     </div>
   )
