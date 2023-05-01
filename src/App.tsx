@@ -4,6 +4,7 @@ import Navbar from './components/Navbar'
 import LoginMain from './pages/LoginMain'
 import SignUpPage from './pages/SignUp'
 import MainPage from './pages/MainPage'
+import AccountInfo from './pages/AccountInfo'
 import Sidebar from './components/Sidebar'
 import Footer from './components/Footer'
 
@@ -18,6 +19,7 @@ function App() {
             <Route path="/" element={<LoginMain />} />
             <Route path="/signup" element={<SignUpPage />} />
             <Route path="/main" element={<MainPage />} />
+            <Route path="/accountinfo" element={<AccountInfo />} />
           </Routes>
           <Footer />
         </section>

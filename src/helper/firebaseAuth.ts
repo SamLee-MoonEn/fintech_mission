@@ -9,8 +9,6 @@ import {
 } from 'firebase/auth'
 import { getDatabase, ref, set } from 'firebase/database'
 
-import { createRandomAccountNum } from './helper'
-
 const {
   VITE_FIREBASE_API_KEY,
   VITE_FIREBASE_AUTH_DOMAIN,
@@ -33,10 +31,10 @@ const firebaseApp = initializeApp(firebaseConfig)
 const auth = getAuth()
 const firebasedb = getDatabase(firebaseApp)
 
-const setInitialAccount = (user: User) => {
+const setInitialAccount = (user: User, accountNum: string) => {
   set(ref(firebasedb, `${user.uid}/Account `), {
     account: {
-      accountNum: `${createRandomAccountNum()}`,
+      accountNum: `${accountNum}`,
       password: 0,
       balance: 0,
       transactions: {},
