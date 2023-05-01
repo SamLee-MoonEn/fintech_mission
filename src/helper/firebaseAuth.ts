@@ -31,7 +31,7 @@ const firebaseApp = initializeApp(firebaseConfig)
 const auth = getAuth()
 const firebasedb = getDatabase(firebaseApp)
 
-const setInitialAccount = (user: User, accountNum: string) => {
+const createNewAccount = (user: User, accountNum: string) => {
   set(ref(firebasedb, `${user.uid}/Account `), {
     account: {
       accountNum: `${accountNum}`,
@@ -56,6 +56,6 @@ export {
   auth,
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
-  setInitialAccount,
+  createNewAccount,
   handleGoogleLogin,
 }
