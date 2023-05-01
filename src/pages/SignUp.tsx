@@ -7,10 +7,7 @@ import {
   auth,
   signInWithEmailAndPassword,
   createUserWithEmailAndPassword,
-  createNewAccount,
 } from '../helper/firebaseAuth'
-import { createRandomAccountNum } from '../helper/helper'
-import PasswordKeypad from '../components/PasswordKeypad'
 
 export default function SignUpPage() {
   const {
