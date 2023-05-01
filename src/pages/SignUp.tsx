@@ -7,7 +7,7 @@ import {
   auth,
   signInWithEmailAndPassword,
   createUserWithEmailAndPassword,
-  setInitialAccount,
+  createNewAccount,
 } from '../helper/firebaseAuth'
 import { createRandomAccountNum } from '../helper/helper'
 import PasswordKeypad from '../components/PasswordKeypad'
@@ -22,7 +22,7 @@ export default function SignUpPage() {
   const [email, setEmail] = useState('')
   const [emailCheckMessege, setemailCheckMessege] = useState('')
   const [isAlert, setIsAlert] = useState(true)
-  const [account, setAccount] = useState('')
+  // const [account, setAccount] = useState('')
   const navigate = useNavigate()
 
   const signUp: SubmitHandler<FieldValues> = async (data) => {
@@ -38,17 +38,12 @@ export default function SignUpPage() {
       alert('비밀번호를 입력해 주세요.')
       return
     }
-    if (!account) {
-      alert('계좌를 생성해 주세요.')
-      return
-    }
     try {
       const { user } = await createUserWithEmailAndPassword(
         auth,
         data.email,
         data.password,
       )
-      setInitialAccount(user, account)
       reset()
       setemailCheckMessege('')
       setIsAlert(true)
@@ -61,10 +56,6 @@ export default function SignUpPage() {
   const handleChangeValue = (e: React.ChangeEvent<HTMLInputElement>) => {
     setEmail(e.target.value)
   }
-  const createAccount = (e: React.FormEvent) => {
-    e.preventDefault()
-    setAccount(createRandomAccountNum())
-  }
 
   const checkEmail = async (e: React.FormEvent) => {
     e.preventDefault()
@@ -72,7 +63,7 @@ export default function SignUpPage() {
       const methods = await signInWithEmailAndPassword(
         auth,
         email,
-        'jlkurfehn1!@$89fyahsd@!#4rfhui',
+        'jlkurfehn1!@$89fyahsd@1234af1^)(*&^%$#!#4rfhui',
       )
     } catch ({ code }: any) {
       switch (code) {
@@ -109,7 +100,7 @@ export default function SignUpPage() {
             <input
               id="email"
               type="email"
-              className=" input input-bordered w-56 text-sm md:text-lg pl-1"
+              className=" input input-bordered w-56 md:w-64 text-sm md:text-lg pl-1"
               placeholder="이메일을 입력해주세요."
               {...register('email')}
               onChange={handleChangeValue}
@@ -118,10 +109,10 @@ export default function SignUpPage() {
           <div className="flex items-center">
             <button
               type="button"
-              className="btn btn-outline btn-md w-32 "
+              className="btn w-24 text-sm md:w-32 md:text-lg mr-2"
               onClick={checkEmail}
             >
-              이메일 중복 체크
+              중복 체크
             </button>
             <p
               className={cx(
@@ -142,7 +133,7 @@ export default function SignUpPage() {
             <input
               id="password"
               type="password"
-              className="input input-bordered w-56 text-sm md:text-lg pl-1"
+              className="input input-bordered w-56 md:w-64 text-sm md:text-lg pl-1"
               placeholder="6자리 이상 입력해주세요."
               {...register('password')}
             />
@@ -157,21 +148,11 @@ export default function SignUpPage() {
             <input
               id="passwordCheck"
               type="password"
-              className="input input-bordered w-56 text-sm md:text-lg pl-1"
+              className="input input-bordered w-56 md:w-64 text-sm md:text-lg pl-1"
               placeholder="6자리 이상 입력해주세요."
               {...register('passwordCheck')}
             />
           </div>
-          <div className="mt-2">
-            <button
-              className="btn btn-error w-32 mr-4 text-white"
-              onClick={createAccount}
-            >
-              계좌생성
-            </button>
-            <input className="input w-56" disabled defaultValue={account} />
-          </div>
-          <PasswordKeypad />
           <button className="w-full flex justify-center items-center btn h-8 text-lg text-white mt-4">
             회원가입
           </button>
