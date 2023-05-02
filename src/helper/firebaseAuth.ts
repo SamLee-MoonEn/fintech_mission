@@ -7,7 +7,7 @@ import {
   GoogleAuthProvider,
   signInWithPopup,
 } from 'firebase/auth'
-import { getDatabase, ref, set } from 'firebase/database'
+import { getDatabase, ref, get, push, child } from 'firebase/database'
 
 const {
   VITE_FIREBASE_API_KEY,
@@ -31,15 +31,27 @@ const firebaseApp = initializeApp(firebaseConfig)
 const auth = getAuth()
 const firebasedb = getDatabase(firebaseApp)
 
-const createNewAccount = (user: User, accountNum: string) => {
-  set(ref(firebasedb, `${user.uid}/Account `), {
-    account: {
-      accountNum: `${accountNum}`,
-      password: 0,
-      balance: 0,
-      transactions: {},
-    },
-  })
+const createNewAccount = (userUid: string, accountNum: string) => {
+  const accountData = {
+    accountNum: `${accountNum}`,
+    password: 0,
+    balance: 0,
+    transactions: {},
+  }
+
+  push(ref(firebasedb, `${userUid}/Account`), accountData)
+}
+
+// any type 변경 필요
+const getAccountInfo = async (userUid: string) => {
+  const data = await get(child(ref(firebasedb), `${userUid}/Account`))
+  if (data.exists()) {
+    const accountList = data.val()
+    return accountList
+  } else {
+    console.log('data없음')
+    return {}
+  }
 }
 
 const handleGoogleLogin = async () => {
@@ -58,4 +70,5 @@ export {
   signInWithEmailAndPassword,
   createNewAccount,
   handleGoogleLogin,
+  getAccountInfo,
 }
