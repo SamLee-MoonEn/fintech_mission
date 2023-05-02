@@ -6,7 +6,7 @@ export default function Navbar() {
   const userInfo = useRecoilValue(userState)
 
   return (
-    <div className="fixed w-full h-12 border-solid border-gray-300 border-b flex justify-center items-center text-gray-500">
+    <div className=" z-20 bg-white fixed w-full h-12 border-solid border-gray-300 border-b flex justify-center items-center text-gray-500">
       <div className="max-w-[80%] w-full flex justify-between items-center">
         <a href="/" className="text-2xl">
           MoonEn
