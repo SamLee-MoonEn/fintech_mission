@@ -1,50 +1,55 @@
-import { useCallback, useState } from 'react'
+import { useEffect, useState } from 'react'
+import { useSetRecoilState } from 'recoil'
+
 import { shuffleNum } from '../helper/helper'
 import KeyButton from './KeyButton'
+import { newAccountPassword } from '../store/userInfo'
 
 export default function PasswordKeypad() {
   const PASSWORD_MAX_LENGTH = 6
+  const setNewAccountPassword = useSetRecoilState(newAccountPassword)
 
   const numsInit = Array.from({ length: 10 }, (_, idx) => idx)
   const [nums, setNums] = useState(shuffleNum(numsInit))
   const [password, setPassword] = useState('')
-  const handlePassword = useCallback(
-    (e: React.ChangeEvent<HTMLInputElement>) => {
-      e.target.value = password
-    },
-    [password],
-  )
-  const handlePasswordChange = useCallback(
-    (e: React.FormEvent) => {
-      e.preventDefault()
-      if (password.length === PASSWORD_MAX_LENGTH) {
-        return
-      }
-      setPassword(password + e.currentTarget.getAttribute('data-value'))
-    },
-    [password],
-  )
 
-  const deletePassword = useCallback(
-    (e: React.FormEvent) => {
-      e.preventDefault()
-      setPassword(
-        password.slice(0, password.length === 0 ? 0 : password.length - 1),
-      )
-    },
-    [password],
-  )
-  const clearPassowrd = useCallback(
-    (e: React.FormEvent) => {
-      e.preventDefault()
-      setPassword('')
-    },
-    [password],
-  )
+  useEffect(() => {
+    setNewAccountPassword(password)
+  }, [password])
+
+  const handlePassword = (e: React.ChangeEvent<HTMLInputElement>) => {
+    e.target.value = password
+  }
+
+  const handlePasswordChange = (e: React.FormEvent) => {
+    e.preventDefault()
+    if (password.length === PASSWORD_MAX_LENGTH) {
+      return
+    }
+    setPassword(password + e.currentTarget.getAttribute('data-value'))
+  }
+
+  const deletePassword = (e: React.FormEvent) => {
+    e.preventDefault()
+    setPassword(
+      password.slice(0, password.length === 0 ? 0 : password.length - 1),
+    )
+  }
+  const clearPassowrd = (e: React.FormEvent) => {
+    e.preventDefault()
+    setPassword('')
+  }
 
   return (
-    <div className="flex ">
-      <label htmlFor="my-modal" className="btn text-3xl">
+    <div className="flex mb-4">
+      <input
+        className=" placeholder:text-slate-800 input input-disabled"
+        type="password"
+        onChange={handlePassword}
+        value={password}
+        placeholder="계좌 비밀번호"
+      />
+      <label htmlFor="my-modal" className="btn text-3xl ml-10">
         ⌨️
       </label>
       <input type="checkbox" id="my-modal" className="modal-toggle" />
@@ -62,6 +67,7 @@ export default function PasswordKeypad() {
               return idx === nums.length - 1 ? (
                 <>
                   <button
+                    key="clear"
                     onClick={clearPassowrd}
                     className="btn btn-outline m-1"
                   >
@@ -86,13 +92,6 @@ export default function PasswordKeypad() {
           </label>
         </label>
       </label>
-      <input
-        className=" placeholder:text-slate-800 input input-disabled"
-        type="password"
-        onChange={handlePassword}
-        value={password}
-        placeholder="계좌 비밀번호"
-      />
     </div>
   )
 }

@@ -19,7 +19,6 @@ export default function SignUpPage() {
   const [email, setEmail] = useState('')
   const [emailCheckMessege, setemailCheckMessege] = useState('')
   const [isAlert, setIsAlert] = useState(true)
-  // const [account, setAccount] = useState('')
   const navigate = useNavigate()
 
   const signUp: SubmitHandler<FieldValues> = async (data) => {

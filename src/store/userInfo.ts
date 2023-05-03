@@ -1,12 +1,5 @@
 import { atom } from 'recoil'
 
-export const authState = atom({
-  key: 'authState',
-  default: {
-    user: null,
-    loading: true,
-  },
-})
 export const userState = atom({
   key: 'user',
   default: '',
@@ -17,4 +10,9 @@ export const userState = atom({
       onSet((v) => sessionStorage.setItem('USER_UID', `${v}`))
     },
   ],
+})
+
+export const newAccountPassword = atom({
+  key: 'newPassword',
+  default: '',
 })

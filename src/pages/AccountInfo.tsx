@@ -1,9 +1,11 @@
-import { useEffect, useState } from 'react'
-import { useRecoilValue } from 'recoil'
+import { useEffect, useState, useRef } from 'react'
+import { useRecoilValue, useResetRecoilState } from 'recoil'
 
-import { userState } from '../store/userInfo'
+import { newAccountPassword, userState } from '../store/userInfo'
 import { createNewAccount, getAccountInfo } from '../helper/firebaseAuth'
+import { createRandomAccountNum } from '../helper/helper'
 import AccountCard from '../components/AccountCard'
+import PasswordKeypad from '../components/PasswordKeypad'
 
 interface accountProps {
   accountNum: string
@@ -12,7 +14,28 @@ interface accountProps {
 
 export default function AccountInfo() {
   const userInfo = useRecoilValue(userState)
+  const newPassword = useRecoilValue(newAccountPassword)
+  const newAccountModalToggle = useRef<HTMLInputElement>(null)
+  const resetPassword = useResetRecoilState(newAccountPassword)
+
   const [accountList, setAccountList] = useState([])
+  const [newAccountNum, setNewAccountNum] = useState('')
+
+  const creatNewAccountNum = () => {
+    setNewAccountNum(createRandomAccountNum())
+  }
+
+  const handleCreateNewAccount = () => {
+    if (newPassword.length !== 6) {
+      alert('비밀번호는 6자리입니다.')
+      return
+    }
+    createNewAccount(userInfo, newAccountNum, newPassword)
+    resetPassword()
+    if (newAccountModalToggle.current !== null) {
+      newAccountModalToggle.current.checked = false
+    }
+  }
 
   const tempGetAccountInfo = async () => {
     const accounts = await getAccountInfo(userInfo)
@@ -20,7 +43,6 @@ export default function AccountInfo() {
   }
   useEffect(() => {
     tempGetAccountInfo()
-    console.log(accountList)
   }, [])
 
   return (
@@ -34,11 +56,34 @@ export default function AccountInfo() {
               balance={v.balance}
             />
           ))}
-          <button className="card w-full bg-neutral text-primary-content shadow-xl items-center">
-            <div className="card-body">
-              <h2 className="card-title text-lg md:text-3xl">계좌 추가 +</h2>
+          <label
+            htmlFor="new-account"
+            className="btn w-full bg-neutral text-primary-content shadow-xl items-center text-3xl h-20"
+            onClick={creatNewAccountNum}
+          >
+            계좌추가 +
+          </label>
+          <input
+            type="checkbox"
+            id="new-account"
+            className="modal-toggle"
+            ref={newAccountModalToggle}
+          />
+          <div className="modal ">
+            <div className="overflow-visible bg-white p-20 rounded-xl relative flex flex-col">
+              <label
+                htmlFor="new-account"
+                className="btn btn-square btn-outline absolute right-2 top-2"
+              >
+                x
+              </label>
+              <div className="text-2xl mb-4">계좌번호 {newAccountNum}</div>
+              <PasswordKeypad />
+              <button onClick={handleCreateNewAccount} className="btn text-2xl">
+                계좌 생성
+              </button>
             </div>
-          </button>
+          </div>
         </div>
       </div>
     </div>

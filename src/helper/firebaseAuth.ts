@@ -3,7 +3,6 @@ import {
   getAuth,
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
-  User,
   GoogleAuthProvider,
   signInWithPopup,
 } from 'firebase/auth'
@@ -31,10 +30,14 @@ const firebaseApp = initializeApp(firebaseConfig)
 const auth = getAuth()
 const firebasedb = getDatabase(firebaseApp)
 
-const createNewAccount = (userUid: string, accountNum: string) => {
+const createNewAccount = (
+  userUid: string,
+  accountNum: string,
+  password: string,
+) => {
   const accountData = {
     accountNum: `${accountNum}`,
-    password: 0,
+    password,
     balance: 0,
     transactions: {},
   }
