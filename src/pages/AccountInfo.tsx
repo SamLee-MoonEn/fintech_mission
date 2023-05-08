@@ -1,7 +1,7 @@
 import { useEffect, useState, useRef } from 'react'
 import { useRecoilValue, useResetRecoilState } from 'recoil'
 
-import { newAccountPassword, userState } from '../store/userInfo'
+import { userState } from '../store/userInfo'
 import { createNewAccount, getAccountInfo } from '../helper/firebaseAuth'
 import { createRandomAccountNum } from '../helper/helper'
 import AccountCard from '../components/AccountCard'
@@ -14,24 +14,28 @@ interface accountProps {
 
 export default function AccountInfo() {
   const userInfo = useRecoilValue(userState)
-  const newPassword = useRecoilValue(newAccountPassword)
   const newAccountModalToggle = useRef<HTMLInputElement>(null)
-  const resetPassword = useResetRecoilState(newAccountPassword)
 
   const [accountList, setAccountList] = useState([])
   const [newAccountNum, setNewAccountNum] = useState('')
+  const [newPassword, setNewPassword ] = useState('')
 
   const creatNewAccountNum = () => {
     setNewAccountNum(createRandomAccountNum())
   }
-
+  const handleNewPassword = (password:string) => {
+    setNewPassword(password)
+  }
+  const handleReset = () => {
+    setNewPassword('')
+  }
   const handleCreateNewAccount = () => {
     if (newPassword.length !== 6) {
       alert('비밀번호는 6자리입니다.')
       return
     }
     createNewAccount(userInfo, newAccountNum, newPassword)
-    resetPassword()
+    setNewPassword('')
     if (newAccountModalToggle.current !== null) {
       newAccountModalToggle.current.checked = false
     }
@@ -74,11 +78,12 @@ export default function AccountInfo() {
               <label
                 htmlFor="new-account"
                 className="btn btn-square btn-outline absolute right-2 top-2"
+                onClick={handleReset}
               >
                 x
               </label>
               <div className="text-2xl mb-4">계좌번호 {newAccountNum}</div>
-              <PasswordKeypad />
+              <PasswordKeypad newPassword={newPassword} onChangePassword={handleNewPassword}/>
               <button onClick={handleCreateNewAccount} className="btn text-2xl">
                 계좌 생성
               </button>

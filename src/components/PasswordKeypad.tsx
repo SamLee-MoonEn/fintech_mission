@@ -5,17 +5,15 @@ import { shuffleNum } from '../helper/helper'
 import KeyButton from './KeyButton'
 import { newAccountPassword } from '../store/userInfo'
 
-export default function PasswordKeypad() {
+export default function PasswordKeypad( {newPassword ,onChangePassword}:{ newPassword: string,onChangePassword:(password: string) => void}) {
   const PASSWORD_MAX_LENGTH = 6
-  const setNewAccountPassword = useSetRecoilState(newAccountPassword)
+ 
 
   const numsInit = Array.from({ length: 10 }, (_, idx) => idx)
   const [nums, setNums] = useState(shuffleNum(numsInit))
   const [password, setPassword] = useState('')
 
-  useEffect(() => {
-    setNewAccountPassword(password)
-  }, [password])
+  useEffect(() => {setPassword(newPassword)}, [newPassword])
 
   const handlePassword = (e: React.ChangeEvent<HTMLInputElement>) => {
     e.target.value = password
@@ -26,18 +24,19 @@ export default function PasswordKeypad() {
     if (password.length === PASSWORD_MAX_LENGTH) {
       return
     }
-    setPassword(password + e.currentTarget.getAttribute('data-value'))
+    onChangePassword(password+e.currentTarget.getAttribute('data-value'))
+    // setPassword(password + e.currentTarget.getAttribute('data-value'))
   }
 
   const deletePassword = (e: React.FormEvent) => {
     e.preventDefault()
-    setPassword(
+    onChangePassword(
       password.slice(0, password.length === 0 ? 0 : password.length - 1),
     )
   }
   const clearPassowrd = (e: React.FormEvent) => {
     e.preventDefault()
-    setPassword('')
+    onChangePassword('')
   }
 
   return (
