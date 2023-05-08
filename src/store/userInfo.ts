@@ -12,7 +12,3 @@ export const userState = atom({
   ],
 })
 
-export const newAccountPassword = atom({
-  key: 'newPassword',
-  default: '',
-})
