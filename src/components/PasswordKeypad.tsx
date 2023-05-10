@@ -1,9 +1,7 @@
 import { useEffect, useState } from 'react'
-import { useSetRecoilState } from 'recoil'
 
 import { shuffleNum } from '../helper/helper'
 import KeyButton from './KeyButton'
-import { newAccountPassword } from '../store/userInfo'
 
 export default function PasswordKeypad( {newPassword ,onChangePassword}:{ newPassword: string,onChangePassword:(password: string) => void}) {
   const PASSWORD_MAX_LENGTH = 6
@@ -25,7 +23,6 @@ export default function PasswordKeypad( {newPassword ,onChangePassword}:{ newPas
       return
     }
     onChangePassword(password+e.currentTarget.getAttribute('data-value'))
-    // setPassword(password + e.currentTarget.getAttribute('data-value'))
   }
 
   const deletePassword = (e: React.FormEvent) => {
@@ -66,7 +63,7 @@ export default function PasswordKeypad( {newPassword ,onChangePassword}:{ newPas
               return idx === nums.length - 1 ? (
                 <>
                   <button
-                    key="clear"
+                    key='clear'
                     onClick={clearPassowrd}
                     className="btn btn-outline m-1"
                   >

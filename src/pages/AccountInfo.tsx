@@ -1,5 +1,5 @@
 import { useEffect, useState, useRef } from 'react'
-import { useRecoilValue, useResetRecoilState } from 'recoil'
+import { useRecoilValue } from 'recoil'
 
 import { userState } from '../store/userInfo'
 import { createNewAccount, getAccountInfo } from '../helper/firebaseAuth'
@@ -17,6 +17,7 @@ export default function AccountInfo() {
   const newAccountModalToggle = useRef<HTMLInputElement>(null)
 
   const [accountList, setAccountList] = useState([])
+  const [accountKeyList, setAccountKeyList] = useState<string[]>([])
   const [newAccountNum, setNewAccountNum] = useState('')
   const [newPassword, setNewPassword ] = useState('')
 
@@ -44,6 +45,7 @@ export default function AccountInfo() {
   const tempGetAccountInfo = async () => {
     const accounts = await getAccountInfo(userInfo)
     setAccountList(Object.values(accounts))
+    setAccountKeyList(Object.keys(accounts))
   }
   useEffect(() => {
     tempGetAccountInfo()
@@ -53,11 +55,12 @@ export default function AccountInfo() {
     <div className=" max-w-full md:max-w-[80%] ml-auto mr-auto">
       <div className="flex w-full items-center mt-24 flex-col">
         <div className="w-8/12">
-          {accountList.map((v: accountProps) => (
+          {accountList.map((v: accountProps, idx) => (
             <AccountCard
               key={v.accountNum}
               accountNum={v.accountNum}
-              balance={v.balance}
+              balance={v.balance.toLocaleString()}
+              accountKey={accountKeyList[idx]}
             />
           ))}
           <label
