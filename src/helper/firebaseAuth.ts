@@ -6,7 +6,7 @@ import {
   GoogleAuthProvider,
   signInWithPopup,
 } from 'firebase/auth'
-import { getDatabase, ref, get, push, child } from 'firebase/database'
+import { getDatabase, ref, get, push, child, update } from 'firebase/database'
 
 const {
   VITE_FIREBASE_API_KEY,
@@ -30,6 +30,7 @@ const firebaseApp = initializeApp(firebaseConfig)
 const auth = getAuth()
 const firebasedb = getDatabase(firebaseApp)
 
+// 새로운 Account 만들기
 const createNewAccount = (
   userUid: string,
   accountNum: string,
@@ -41,22 +42,38 @@ const createNewAccount = (
     balance: 0,
     transactions: {},
   }
-
-  push(ref(firebasedb, `${userUid}/Account`), accountData)
+  // const newAccountKey = push(child(ref(firebasedb), 'Account')).key
+  const updates:any ={};
+  updates[`${userUid}/Account/`+accountNum] = accountData
+  update(ref(firebasedb), updates)
+  // push(ref(firebasedb, `${userUid}/Account`), accountData)
 }
 
-// any type 변경 필요
+
+// Account 정보 불러오기. any type 변경 필요
 const getAccountInfo = async (userUid: string) => {
   const data = await get(child(ref(firebasedb), `${userUid}/Account`))
-  if (data.exists()) {
-    const accountList = data.val()
-    return accountList
-  } else {
-    console.log('data없음')
-    return {}
+  try{
+    if (data.exists()) {
+      const accountList = data.val()
+      return accountList
+    } else {
+      console.log('data없음')
+      return {}
+    }
+  } catch(err){
+    console.error(err)
   }
 }
+// Account 입금 기능
+const addDeposit = async (userUid:string, accountNum:string, deposit:number) => {
+  const data = await get(child(ref(firebasedb), `${userUid}/Account/${accountNum}/balance`))
+  const updates:any = {}
+  updates[`${userUid}/Account/${accountNum}/balance`] = data.val() + deposit
+  update(ref(firebasedb), updates)
+}
 
+// Google 로그인
 const handleGoogleLogin = async () => {
   const provider = new GoogleAuthProvider()
   try {
@@ -74,4 +91,5 @@ export {
   createNewAccount,
   handleGoogleLogin,
   getAccountInfo,
+  addDeposit
 }
