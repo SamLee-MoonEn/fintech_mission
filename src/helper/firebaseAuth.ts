@@ -43,17 +43,16 @@ const createNewAccount = (
     transactions: {},
   }
   // const newAccountKey = push(child(ref(firebasedb), 'Account')).key
-  const updates:any ={};
-  updates[`${userUid}/Account/`+accountNum] = accountData
+  const updates: any = {}
+  updates[`${userUid}/Account/` + accountNum] = accountData
   update(ref(firebasedb), updates)
   // push(ref(firebasedb, `${userUid}/Account`), accountData)
 }
 
-
 // Account 정보 불러오기. any type 변경 필요
 const getAccountInfo = async (userUid: string) => {
   const data = await get(child(ref(firebasedb), `${userUid}/Account`))
-  try{
+  try {
     if (data.exists()) {
       const accountList = data.val()
       return accountList
@@ -61,16 +60,54 @@ const getAccountInfo = async (userUid: string) => {
       console.log('data없음')
       return {}
     }
-  } catch(err){
+  } catch (err) {
     console.error(err)
   }
 }
 // Account 입금 기능
-const addDeposit = async (userUid:string, accountNum:string, deposit:number) => {
-  const data = await get(child(ref(firebasedb), `${userUid}/Account/${accountNum}/balance`))
-  const updates:any = {}
-  updates[`${userUid}/Account/${accountNum}/balance`] = data.val() + deposit
-  update(ref(firebasedb), updates)
+const addDeposit = async (
+  userUid: string,
+  accountNum: string,
+  depositAmount: number,
+) => {
+  try {
+    const data = await get(
+      child(ref(firebasedb), `${userUid}/Account/${accountNum}/balance`),
+    )
+    const updates: any = {}
+    updates[`${userUid}/Account/${accountNum}/balance`] =
+      data.val() + depositAmount
+    update(ref(firebasedb), updates)
+  } catch (err) {
+    console.log(err)
+  }
+}
+
+// Account 출금 기능
+const accountTransfer = async (
+  userUid: string,
+  accountNum: string,
+  transferAmount: number,
+  password: string,
+) => {
+  try {
+    const accountPassword = await get(
+      child(ref(firebasedb), `${userUid}/Account/${accountNum}/password`),
+    )
+    if (accountPassword.val() !== password) {
+      alert('비밀번호가 일치하지 않습니다.')
+      return
+    }
+    const data = await get(
+      child(ref(firebasedb), `${userUid}/Account/${accountNum}/balance`),
+    )
+    const updates: any = {}
+    updates[`${userUid}/Account/${accountNum}/balance`] =
+      data.val() - transferAmount
+    update(ref(firebasedb), updates)
+  } catch (err) {
+    console.log(err)
+  }
 }
 
 // Google 로그인
@@ -91,5 +128,6 @@ export {
   createNewAccount,
   handleGoogleLogin,
   getAccountInfo,
-  addDeposit
+  addDeposit,
+  accountTransfer,
 }

@@ -3,15 +3,26 @@ import { useEffect, useState } from 'react'
 import { shuffleNum } from '../helper/helper'
 import KeyButton from './KeyButton'
 
-export default function PasswordKeypad( {newPassword ,onChangePassword}:{ newPassword: string,onChangePassword:(password: string) => void}) {
+interface Props {
+  newPassword: string
+  onChangePassword: (password: string) => void
+  modalFor: string
+}
+
+export default function PasswordKeypad({
+  newPassword,
+  onChangePassword,
+  modalFor,
+}: Props) {
   const PASSWORD_MAX_LENGTH = 6
- 
 
   const numsInit = Array.from({ length: 10 }, (_, idx) => idx)
   const [nums, setNums] = useState(shuffleNum(numsInit))
   const [password, setPassword] = useState('')
 
-  useEffect(() => {setPassword(newPassword)}, [newPassword])
+  useEffect(() => {
+    setPassword(newPassword)
+  }, [newPassword])
 
   const handlePassword = (e: React.ChangeEvent<HTMLInputElement>) => {
     e.target.value = password
@@ -22,7 +33,7 @@ export default function PasswordKeypad( {newPassword ,onChangePassword}:{ newPas
     if (password.length === PASSWORD_MAX_LENGTH) {
       return
     }
-    onChangePassword(password+e.currentTarget.getAttribute('data-value'))
+    onChangePassword(password + e.currentTarget.getAttribute('data-value'))
   }
 
   const deletePassword = (e: React.FormEvent) => {
@@ -39,20 +50,20 @@ export default function PasswordKeypad( {newPassword ,onChangePassword}:{ newPas
   return (
     <div className="flex mb-4">
       <input
-        className=" placeholder:text-slate-800 input input-disabled"
+        className=" placeholder:text-slate-800 text-black input input-disabled"
         type="password"
         onChange={handlePassword}
         value={password}
         placeholder="계좌 비밀번호"
       />
-      <label htmlFor="my-modal" className="btn text-3xl ml-10">
+      <label htmlFor={modalFor} className="btn text-3xl ml-10">
         ⌨️
       </label>
-      <input type="checkbox" id="my-modal" className="modal-toggle" />
-      <label htmlFor="my-modal" className="modal cursor-pointer">
+      <input type="checkbox" id={modalFor} className="modal-toggle" />
+      <label htmlFor={modalFor} className="modal cursor-pointer">
         <label htmlFor="" className="modal-box relative w-96">
           <input
-            className="input input-bordered w-full mb-2"
+            className="input input-bordered w-full mb-2 text-black"
             type="password"
             onChange={handlePassword}
             value={password}
@@ -63,7 +74,7 @@ export default function PasswordKeypad( {newPassword ,onChangePassword}:{ newPas
               return idx === nums.length - 1 ? (
                 <>
                   <button
-                    key='clear'
+                    key="clear"
                     onClick={clearPassowrd}
                     className="btn btn-outline m-1"
                   >
@@ -83,7 +94,7 @@ export default function PasswordKeypad( {newPassword ,onChangePassword}:{ newPas
               ←
             </button>
           </div>
-          <label htmlFor="my-modal" className="btn w-full text-xl">
+          <label htmlFor={modalFor} className="btn w-full text-xl">
             입력완료
           </label>
         </label>
