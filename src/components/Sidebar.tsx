@@ -13,11 +13,13 @@ export default function Sidebar() {
       <label htmlFor="drawer" className="drawer-overlay"></label>
       {userInfo ? (
         <ul className="p-4 w-80 bg-base-100 text-base-content">
-          <a href='/accountinfo'>계좌정보</a>
-          <li>지출정보</li>
-          <li>주식정보</li>
-          <li>환율정보</li>
-          <li>로그아웃</li>
+          <li className="btn btn-outline w-full mb-1">
+            <a href="/accountinfo">계좌정보</a>
+          </li>
+          <li className="btn btn-outline w-full mb-1">지출정보</li>
+          <li className="btn btn-outline w-full mb-1">주식정보</li>
+          <li className="btn btn-outline w-full mb-1">환율정보</li>
+          <li className="btn btn-outline w-full mb-1">로그아웃</li>
         </ul>
       ) : (
         <ul className="menu p-4 w-80 bg-base-100 text-base-content ">
