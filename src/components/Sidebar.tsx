@@ -1,5 +1,4 @@
 import { useRecoilValue } from 'recoil'
-import { Link } from 'react-router-dom'
 
 import { handleGoogleLogin } from '../helper/firebaseAuth'
 import { userState } from '../store/userInfo'
@@ -16,7 +15,9 @@ export default function Sidebar() {
           <li className="btn btn-outline w-full mb-1">
             <a href="/accountinfo">계좌정보</a>
           </li>
-          <li className="btn btn-outline w-full mb-1">지출정보</li>
+          <li className="btn btn-outline w-full mb-1">
+            <a href="/expenseinfo">지출정보</a>
+          </li>
           <li className="btn btn-outline w-full mb-1">주식정보</li>
           <li className="btn btn-outline w-full mb-1">환율정보</li>
           <li className="btn btn-outline w-full mb-1">로그아웃</li>
