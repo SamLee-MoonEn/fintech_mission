@@ -101,9 +101,19 @@ const accountTransfer = async (
     const data = await get(
       child(ref(firebasedb), `${userUid}/Account/${accountNum}/balance`),
     )
+    const balance = data.val()
+    if (balance < transferAmount) {
+      alert('잔액이 부족합니다.')
+      return
+    }
     const updates: any = {}
     updates[`${userUid}/Account/${accountNum}/balance`] =
-      data.val() - transferAmount
+      balance - transferAmount
+    updates[`${userUid}/Account/${accountNum}/transection/`] = [
+      '지출',
+      transferAmount,
+      new Date().toLocaleDateString('ko-kr').toString().slice(0, 10),
+    ]
     update(ref(firebasedb), updates)
   } catch (err) {
     console.log(err)
