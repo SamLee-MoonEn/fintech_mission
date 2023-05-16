@@ -18,11 +18,23 @@ export default function AccountCard({ accountNum, balance }: accountProps) {
   const [transferAmount, setTransferAmount] = useState<number>(0)
 
   const handleDepositAmount = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setDepositAmount(Number(e.target.value))
+    const amount = Number(e.target.value)
+    if (isNaN(amount)) {
+      alert('숫자를 입력해 주세요.')
+      setDepositAmount(0)
+      return
+    }
+    setDepositAmount(amount)
   }
 
   const handleTransferAmount = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setTransferAmount(Number(e.target.value))
+    const amount = Number(e.target.value)
+    if (isNaN(amount)) {
+      alert('숫자를 입력해 주세요.')
+      setTransferAmount(0)
+      return
+    }
+    setTransferAmount(amount)
   }
 
   const handleAddDeposit = () => {
