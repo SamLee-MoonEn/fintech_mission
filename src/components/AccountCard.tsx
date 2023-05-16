@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useRef } from 'react'
 import { useRecoilValue } from 'recoil'
 
 import { userState } from '../store/userInfo'
@@ -9,10 +9,14 @@ import TransferModal from './TransferModal'
 interface accountProps {
   accountNum: string
   balance: string
-  accountKey: string
+  cardIdx: number
 }
 
-export default function AccountCard({ accountNum, balance }: accountProps) {
+export default function AccountCard({
+  accountNum,
+  balance,
+  cardIdx,
+}: accountProps) {
   const userInfo = useRecoilValue(userState)
   const [depositAmount, setDepositAmount] = useState<number>(0)
   const [transferAmount, setTransferAmount] = useState<number>(0)
@@ -57,7 +61,7 @@ export default function AccountCard({ accountNum, balance }: accountProps) {
         <p className=" text-right text-2xl">잔액 {balance} 원</p>
         <div className="card-actions justify-end">
           <label
-            htmlFor="addDeposit"
+            htmlFor={`addDeposit${cardIdx}`}
             className="btn btn-primary text-xl mt-4 w-36"
           >
             입금
@@ -68,9 +72,10 @@ export default function AccountCard({ accountNum, balance }: accountProps) {
             resetDeposit={resetAmount}
             handleAddDeposit={handleAddDeposit}
             handleDepositAmount={handleDepositAmount}
+            modalId={`addDeposit${cardIdx}`}
           />
           <label
-            htmlFor="transfer"
+            htmlFor={`transfer${cardIdx}`}
             className="btn btn-primary text-xl mt-4 w-36"
           >
             송금
@@ -80,6 +85,7 @@ export default function AccountCard({ accountNum, balance }: accountProps) {
             transferAmount={transferAmount}
             resetTransferAmount={resetAmount}
             handleTransferAmount={handleTransferAmount}
+            modalId={`transfer${cardIdx}`}
           />
         </div>
       </div>

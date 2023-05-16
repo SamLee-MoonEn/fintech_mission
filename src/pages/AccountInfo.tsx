@@ -62,7 +62,7 @@ export default function AccountInfo() {
               key={v.accountNum}
               accountNum={v.accountNum}
               balance={v.balance.toLocaleString()}
-              accountKey={accountKeyList[idx]}
+              cardIdx={idx}
             />
           ))}
           <label

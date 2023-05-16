@@ -10,6 +10,7 @@ interface Props {
   transferAmount: number
   resetTransferAmount: () => void
   handleTransferAmount: (e: React.ChangeEvent<HTMLInputElement>) => void
+  modalId: string
 }
 
 export default function TransferModal({
@@ -17,6 +18,7 @@ export default function TransferModal({
   transferAmount,
   resetTransferAmount,
   handleTransferAmount,
+  modalId,
 }: Props) {
   const userInfo = useRecoilValue(userState)
   const [transferPassword, setTransferPassword] = useState('')
@@ -37,11 +39,11 @@ export default function TransferModal({
 
   return (
     <>
-      <input type="checkbox" id="transfer" className="modal-toggle" />
+      <input type="checkbox" id={modalId} className="modal-toggle" />
       <div className="modal">
         <div className=" overflow-visible relative bg-white p-10 rounded-xl">
           <label
-            htmlFor="transfer"
+            htmlFor={modalId}
             className="btn btn-square btn-outline absolute right-2 top-2"
             onClick={handleResetTransferModal}
           >
@@ -64,7 +66,7 @@ export default function TransferModal({
             onChangePassword={handleTransferPassword}
           />
           <label
-            htmlFor="transfer"
+            htmlFor={modalId}
             className="btn btn-primary text-xl w-full"
             onClick={handleAccountTransfer}
           >

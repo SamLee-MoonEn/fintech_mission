@@ -4,6 +4,7 @@ interface Props {
   resetDeposit: () => void
   handleDepositAmount: (e: React.ChangeEvent<HTMLInputElement>) => void
   handleAddDeposit: () => void
+  modalId: string
 }
 
 export default function DepositModal({
@@ -12,14 +13,15 @@ export default function DepositModal({
   resetDeposit,
   handleDepositAmount,
   handleAddDeposit,
+  modalId,
 }: Props) {
   return (
     <>
-      <input type="checkbox" id="addDeposit" className="modal-toggle" />
+      <input type="checkbox" id={modalId} className="modal-toggle" />
       <div onClick={resetDeposit} className="modal">
         <label className="modal-box relative" htmlFor="">
           <label
-            htmlFor="addDeposit"
+            htmlFor={modalId}
             className="btn btn-square btn-outline absolute right-2 top-2"
             onClick={resetDeposit}
           >
@@ -37,7 +39,7 @@ export default function DepositModal({
             <p className="ml-4 text-black text-xl flex-grow-0">원</p>
           </div>
           <label
-            htmlFor="addDeposit"
+            htmlFor={modalId}
             className="btn btn-primary text-xl mt-4 w-full"
             onClick={handleAddDeposit}
           >
