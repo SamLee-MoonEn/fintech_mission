@@ -61,7 +61,7 @@ export default function TransferModal({
             <p className="ml-4 text-black text-xl flex-grow-0">원</p>
           </div>
           <PasswordKeypad
-            modalFor="transferkeypad"
+            modalFor={`keypad${modalId}`}
             newPassword={transferPassword}
             onChangePassword={handleTransferPassword}
           />
