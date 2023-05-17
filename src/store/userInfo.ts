@@ -1,4 +1,5 @@
-import { atom } from 'recoil'
+import { atom, selector } from 'recoil'
+import { getAccountInfo } from '../helper/firebaseAuth'
 
 export const userState = atom({
   key: 'user',
@@ -13,7 +14,11 @@ export const userState = atom({
 })
 
 // 추후 로그인 시 Account 정보를 받아오도록 변경 필요
-export const userAccountList = atom({
+export const userAccountList = selector({
   key: 'accountList',
-  default: [],
+  get: async ({ get }) => {
+    const userUid = get(userState)
+    const accounts = await getAccountInfo(userUid)
+    return accounts
+  },
 })

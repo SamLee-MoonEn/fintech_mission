@@ -1,8 +1,8 @@
 import { useEffect, useState, useRef } from 'react'
-import { useRecoilValue } from 'recoil'
+import { useRecoilValue, useRecoilValueLoadable } from 'recoil'
 
-import { userState } from '../store/userInfo'
-import { createNewAccount, getAccountInfo } from '../helper/firebaseAuth'
+import { userState, userAccountList } from '../store/userInfo'
+import { createNewAccount } from '../helper/firebaseAuth'
 import { createRandomAccountNum } from '../helper/helper'
 import AccountCard from '../components/AccountCard'
 import PasswordKeypad from '../components/PasswordKeypad'
@@ -14,10 +14,11 @@ interface accountProps {
 
 export default function AccountInfo() {
   const userInfo = useRecoilValue(userState)
+  const accountsInfoLoadable = useRecoilValueLoadable(userAccountList)
+
   const newAccountModalToggle = useRef<HTMLInputElement>(null)
 
   const [accountList, setAccountList] = useState([])
-  const [accountKeyList, setAccountKeyList] = useState<string[]>([])
   const [newAccountNum, setNewAccountNum] = useState('')
   const [newPassword, setNewPassword] = useState('')
 
@@ -44,14 +45,12 @@ export default function AccountInfo() {
     }
   }
 
-  const tempGetAccountInfo = async () => {
-    const accounts = await getAccountInfo(userInfo)
-    setAccountList(Object.values(accounts))
-    setAccountKeyList(Object.keys(accounts))
-  }
   useEffect(() => {
-    tempGetAccountInfo()
-  }, [])
+    if (accountsInfoLoadable.state === 'hasValue') {
+      const accountsInfo = accountsInfoLoadable.contents
+      setAccountList(Object.values(accountsInfo))
+    }
+  }, [accountsInfoLoadable])
 
   return (
     <div className=" max-w-full md:max-w-[80%] ml-auto mr-auto">
