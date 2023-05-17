@@ -13,10 +13,14 @@ export default function Sidebar() {
       {userInfo ? (
         <ul className="p-4 w-80 bg-base-100 text-base-content">
           <li className="btn btn-outline w-full mb-1">
-            <a href="/accountinfo">계좌정보</a>
+            <a href="/accountinfo" className="w-full pt-4 pb-4">
+              계좌정보
+            </a>
           </li>
           <li className="btn btn-outline w-full mb-1">
-            <a href="/expenseinfo">지출정보</a>
+            <a href="/expenseinfo" className="w-full pt-4 pb-4">
+              지출정보
+            </a>
           </li>
           <li className="btn btn-outline w-full mb-1">주식정보</li>
           <li className="btn btn-outline w-full mb-1">환율정보</li>
