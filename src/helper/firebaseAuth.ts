@@ -6,7 +6,7 @@ import {
   GoogleAuthProvider,
   signInWithPopup,
 } from 'firebase/auth'
-import { getDatabase, ref, get, push, child, update } from 'firebase/database'
+import { getDatabase, ref, get, child, update } from 'firebase/database'
 import { dateFormatMaker } from './helper'
 
 const {
@@ -90,21 +90,24 @@ const addDeposit = async (
     updates[`${userUid}/Account/${accountNum}/balance`] =
       balance + depositAmount
     // 기존의 키값이 있는지 확인. 있는 경우 기존 데이터에 입금 추가
-    // [입금, 출금, 지출]
+    // [날짜, 입금, 출금, 지출]
     if (transactionsData.exists()) {
       updates[
         `${userUid}/Account/${accountNum}/transection/` + newTransectionKey
       ] = [
-        transactionsData.val()[0] + depositAmount,
-        transactionsData.val()[1],
+        newTransectionKey,
+        transactionsData.val()[1] + depositAmount,
         transactionsData.val()[2],
+        transactionsData.val()[3],
       ]
       update(ref(firebasedb), updates)
       return
     }
+    // 기존의 키 값이 없는 경우에는 새로 생성.
+    // [날짜, 입금, 출금, 지출]
     updates[
       `${userUid}/Account/${accountNum}/transection/` + newTransectionKey
-    ] = [depositAmount, 0, 0]
+    ] = [newTransectionKey, depositAmount, 0, 0]
     update(ref(firebasedb), updates)
   } catch (err) {
     console.log(err)
@@ -148,22 +151,24 @@ const accountTransfer = async (
     updates[`${userUid}/Account/${accountNum}/balance`] =
       balance - transferAmount
     // 기존의 키값이 있는지 확인. 있는 경우 기존 데이터에 출금 추가.
-    // [입금, 출금, 지출]
+    // [날짜, 입금, 출금, 지출]
     if (transactionsData.exists()) {
       updates[
         `${userUid}/Account/${accountNum}/transection/` + newTransectionKey
       ] = [
-        transactionsData.val()[0],
-        transactionsData.val()[1] + transferAmount,
-        transactionsData.val()[2],
+        dateFormatMaker(new Date()),
+        transactionsData.val()[1],
+        transactionsData.val()[2] + transferAmount,
+        transactionsData.val()[3],
       ]
       update(ref(firebasedb), updates)
       return
     }
     // 기존의 키 값이 없는 경우에는 새로 생성.
+    // [날짜, 입금, 출금, 지출]
     updates[
       `${userUid}/Account/${accountNum}/transection/` + newTransectionKey
-    ] = [0, transferAmount, 0]
+    ] = [newTransectionKey, 0, transferAmount, 0]
     update(ref(firebasedb), updates)
   } catch (err) {
     console.log(err)
