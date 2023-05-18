@@ -1,5 +1,5 @@
 import { atom, selector } from 'recoil'
-import { getAccountInfo } from '../helper/firebaseAuth'
+import { getAccountInfo, getTransectionsInfo } from '../helper/firebaseAuth'
 
 export const userState = atom({
   key: 'user',
@@ -20,5 +20,26 @@ export const userAccountList = selector({
     const userUid = get(userState)
     const accounts = await getAccountInfo(userUid)
     return accounts
+  },
+})
+
+export const userTransectionsInfo = selector({
+  key: 'transectionsInfo',
+  get: async ({ get }) => {
+    const accountsInfo = await get(userAccountList)
+    const transectionsList = []
+    for (let key in accountsInfo) {
+      if (accountsInfo.hasOwnProperty(key)) {
+        const account = accountsInfo[key]
+        if (account.hasOwnProperty('transection')) {
+          const transactions = account.transection
+          const transactionsList = Object.values(transactions)
+          transectionsList.push(transactionsList)
+        } else {
+          transectionsList.push([])
+        }
+      }
+    }
+    return transectionsList
   },
 })
