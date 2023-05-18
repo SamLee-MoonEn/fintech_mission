@@ -7,7 +7,6 @@ import MainPage from './pages/MainPage'
 import AccountInfo from './pages/AccountInfo'
 import ExpenseInfo from './pages/ExpenseInfo'
 import Sidebar from './components/Sidebar'
-import Footer from './components/Footer'
 
 function App() {
   return (
@@ -23,7 +22,6 @@ function App() {
             <Route path="/accountinfo" element={<AccountInfo />} />
             <Route path="/expenseinfo" element={<ExpenseInfo />} />
           </Routes>
-          <Footer />
         </section>
         <Sidebar />
       </main>
