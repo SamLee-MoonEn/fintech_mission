@@ -8,7 +8,7 @@ export default function Navbar() {
   return (
     <div className=" z-20 bg-white fixed w-full h-12 border-solid border-gray-300 border-b flex justify-center items-center text-gray-500">
       <div className="max-w-[80%] w-full flex justify-between items-center">
-        <a href="/" className="text-2xl">
+        <a href={userInfo ? '/main' : '/'} className="text-2xl">
           MoonEn
         </a>
         <label htmlFor="drawer" className=" drawer-button cursor-pointer p-3">
