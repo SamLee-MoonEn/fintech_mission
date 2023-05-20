@@ -6,7 +6,9 @@ import googleIcon from '../assets/GoogleLogIn.png'
 
 export default function Sidebar() {
   const userInfo = useRecoilValue(userState)
-
+  const handleLogOut = () => {
+    sessionStorage.removeItem('USER_UID')
+  }
   return (
     <div className="drawer-side">
       <label htmlFor="drawer" className="drawer-overlay"></label>
@@ -28,7 +30,11 @@ export default function Sidebar() {
             </a>
           </li>
           <li className="btn btn-outline w-full mb-1">환율정보</li>
-          <li className="btn btn-outline w-full mb-1">로그아웃</li>
+          <li className="btn btn-outline w-full mb-1">
+            <a href="/" onClick={handleLogOut} className="w-full pt-4 pb-4">
+              로그아웃
+            </a>
+          </li>
         </ul>
       ) : (
         <ul className="menu p-4 w-80 bg-base-100 text-base-content ">
