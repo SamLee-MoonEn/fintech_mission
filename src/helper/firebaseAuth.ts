@@ -211,8 +211,8 @@ const setInterestedStockInfoToFirebase = (
 
 // 관심 주식 정보 가져오기
 const getInterestedStockInfoFromFirebase = async (userUid: string) => {
-  const data = await get(child(ref(firebasedb), `${userUid}/Stock`))
   try {
+    const data = await get(child(ref(firebasedb), `${userUid}/Stock`))
     if (data.exists()) {
       const stockList = data.val()
       return stockList
