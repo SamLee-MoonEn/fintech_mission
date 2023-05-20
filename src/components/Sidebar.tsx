@@ -22,7 +22,11 @@ export default function Sidebar() {
               지출정보
             </a>
           </li>
-          <li className="btn btn-outline w-full mb-1">주식정보</li>
+          <li className="btn btn-outline w-full mb-1">
+            <a href="/stockinfo" className="w-full pt-4 pb-4">
+              주식정보
+            </a>
+          </li>
           <li className="btn btn-outline w-full mb-1">환율정보</li>
           <li className="btn btn-outline w-full mb-1">로그아웃</li>
         </ul>
