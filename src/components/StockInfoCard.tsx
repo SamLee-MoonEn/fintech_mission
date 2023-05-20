@@ -9,9 +9,11 @@ import { userState } from '../store/userInfo'
 export default function StockInfoCard({
   stockCode,
   stockName,
+  updateStockData,
 }: {
   stockCode: string
   stockName: string
+  updateStockData: () => {}
 }) {
   const userUid = useRecoilValue(userState)
   const [stockDataList, setStockDataList] = useState([])
@@ -24,6 +26,7 @@ export default function StockInfoCard({
   }
   const removeStockInfo = async () => {
     removeInterestedStockInfoFromFirebase(userUid, stockCode)
+    updateStockData()
   }
   useEffect(() => {
     getStockData(stockCount)

@@ -5,7 +5,11 @@ import { fetchTickerSymbolSearcher } from '../helper/stockAPI'
 import { setInterestedStockInfoToFirebase } from '../helper/firebaseAuth'
 import { userState } from '../store/userInfo'
 
-export default function StockModal() {
+export default function StockModal({
+  updateStockData,
+}: {
+  updateStockData: () => {}
+}) {
   const userUid = useRecoilValue(userState)
   const [searchValue, setSearchValue] = useState('')
   const [searchData, setSearchData] = useState([])
@@ -24,25 +28,29 @@ export default function StockModal() {
     e: React.MouseEvent<HTMLAnchorElement | HTMLParagraphElement>,
   ) => {
     e.stopPropagation()
-    if (
-      !(
-        e.target instanceof HTMLAnchorElement ||
-        e.target instanceof HTMLParagraphElement
+    try {
+      if (
+        !(
+          e.target instanceof HTMLAnchorElement ||
+          e.target instanceof HTMLParagraphElement
+        )
+      ) {
+        return
+      }
+
+      if (!e.target.dataset['stockcode'] || !e.target.dataset['stockname']) {
+        return
+      }
+      setInterestedStockInfoToFirebase(
+        userUid,
+        e.target.dataset['stockcode'],
+        e.target.dataset['stockname'],
       )
-    ) {
-      return
+      updateStockData()
+      resetInput()
+    } catch (err) {
+      console.error(err)
     }
-    if (!e.target.dataset['stockcode'] || !e.target.dataset['stockname']) {
-      console.log(e.target.dataset['stockcode'])
-      console.log(e.target.dataset['stockname'])
-      return
-    }
-    setInterestedStockInfoToFirebase(
-      userUid,
-      e.target.dataset['stockcode'],
-      e.target.dataset['stockname'],
-    )
-    resetInput()
   }
   useEffect(() => {
     getStockData()
@@ -93,24 +101,24 @@ export default function StockModal() {
                         <p
                           className="ml-4 text-sm text-gray-400"
                           onClick={setInterestedStockInfo}
-                          data-stockCode={v['종목코드']}
-                          data-stockName={v['종목명']}
+                          data-stockcode={v['종목코드']}
+                          data-stockname={v['종목명']}
                         >
                           {v['종목코드']}
                         </p>
                         <p
                           className="ml-4 text-lg"
                           onClick={setInterestedStockInfo}
-                          data-stockCode={v['종목코드']}
-                          data-stockName={v['종목명']}
+                          data-stockcode={v['종목코드']}
+                          data-stockname={v['종목명']}
                         >
                           {v['종목명']}
                         </p>
                         <p
                           className="ml-auto mr-4 text-sm text-gray-400"
                           onClick={setInterestedStockInfo}
-                          data-stockCode={v['종목코드']}
-                          data-stockName={v['종목명']}
+                          data-stockcode={v['종목코드']}
+                          data-stockname={v['종목명']}
                         >
                           {v['시장구분']}
                         </p>
