@@ -20,6 +20,7 @@
     "react-google-chart": "^0.1.2",
     "react-google-charts": "^4.0.0",
     "react-hook-form": "^7.43.9",
+    "react-query": "^3.39.3",
     "react-router-dom": "^6.10.0",
     "recoil": "^0.7.7"
   },
