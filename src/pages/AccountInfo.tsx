@@ -1,26 +1,50 @@
-import { useEffect, useState, useRef } from 'react'
-import { useRecoilValue, useRecoilValueLoadable } from 'recoil'
+import { useState, useRef } from 'react'
+import { useRecoilValue } from 'recoil'
+import { useQuery, useMutation, useQueryClient } from 'react-query'
 
-import { userState, userAccountList } from '../store/userInfo'
-import { createNewAccount } from '../helper/firebaseAuth'
+import { userState } from '../store/userInfo'
+import { createNewAccount, getAccountInfo } from '../helper/firebaseAuth'
 import { createRandomAccountNum } from '../helper/helper'
 import AccountCard from '../components/AccountCard'
 import PasswordKeypad from '../components/PasswordKeypad'
 
-interface accountProps {
-  accountNum: string
-  balance: number
-}
-
 export default function AccountInfo() {
-  const userInfo = useRecoilValue(userState)
-  const accountsInfoLoadable = useRecoilValueLoadable(userAccountList)
+  const [newAccountNum, setNewAccountNum] = useState('')
+  const [newPassword, setNewPassword] = useState('')
+  const userUid = useRecoilValue(userState)
+
+  const queryClient = useQueryClient()
 
   const newAccountModalToggle = useRef<HTMLInputElement>(null)
 
-  const [accountList, setAccountList] = useState([])
-  const [newAccountNum, setNewAccountNum] = useState('')
-  const [newPassword, setNewPassword] = useState('')
+  //useQuery 사용
+  const { isLoading, isError, error, data }: any = useQuery(
+    'accountData',
+    () => {
+      return getAccountInfo(userUid)
+    },
+  )
+  // useMudataion을 이용해서 데이터 업데이트 시 서버에서 데이터 받아오기
+  const updateAccountMutation = useMutation(getAccountInfo, {
+    onSuccess: () => {
+      queryClient.invalidateQueries('accountData')
+    },
+  })
+
+  if (isLoading) {
+    return <div>...Loading</div>
+  }
+
+  if (isError) {
+    console.error(error)
+    return <div>문제발생</div>
+  }
+
+  const handleUpdateAccount = async () => {
+    setTimeout(() => {
+      updateAccountMutation.mutate(userUid)
+    }, 500)
+  }
 
   const creatNewAccountNum = () => {
     setNewAccountNum(createRandomAccountNum())
@@ -38,30 +62,25 @@ export default function AccountInfo() {
       alert('비밀번호는 6자리입니다.')
       return
     }
-    createNewAccount(userInfo, newAccountNum, newPassword)
+    createNewAccount(userUid, newAccountNum, newPassword)
     setNewPassword('')
+    handleUpdateAccount()
     if (newAccountModalToggle.current !== null) {
       newAccountModalToggle.current.checked = false
     }
   }
 
-  useEffect(() => {
-    if (accountsInfoLoadable.state === 'hasValue') {
-      const accountsInfo = accountsInfoLoadable.contents
-      setAccountList(Object.values(accountsInfo))
-    }
-  }, [accountsInfoLoadable])
-
   return (
     <div className=" max-w-full md:max-w-[80%] ml-auto mr-auto">
       <div className="flex w-full items-center mt-24 flex-col">
         <div className="w-8/12">
-          {accountList.map((v: accountProps, idx) => (
+          {Object.values(data).map((v: any, idx) => (
             <AccountCard
               key={v.accountNum}
               accountNum={v.accountNum}
               balance={v.balance.toLocaleString()}
               cardIdx={idx}
+              updateAccount={handleUpdateAccount}
             />
           ))}
           <label
@@ -91,6 +110,7 @@ export default function AccountInfo() {
                 modalFor="account"
                 newPassword={newPassword}
                 onChangePassword={handleNewPassword}
+                key="password"
               />
               <button onClick={handleCreateNewAccount} className="btn text-2xl">
                 계좌 생성

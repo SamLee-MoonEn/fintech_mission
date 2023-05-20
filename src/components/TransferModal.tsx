@@ -10,6 +10,7 @@ interface Props {
   transferAmount: number
   resetTransferAmount: () => void
   handleTransferAmount: (e: React.ChangeEvent<HTMLInputElement>) => void
+  updateAccount: () => void
   modalId: string
 }
 
@@ -18,6 +19,7 @@ export default function TransferModal({
   transferAmount,
   resetTransferAmount,
   handleTransferAmount,
+  updateAccount,
   modalId,
 }: Props) {
   const userInfo = useRecoilValue(userState)
@@ -34,6 +36,7 @@ export default function TransferModal({
 
   const handleAccountTransfer = () => {
     accountTransfer(userInfo, accountNum, transferAmount, transferPassword)
+    updateAccount()
     handleResetTransferModal()
   }
 

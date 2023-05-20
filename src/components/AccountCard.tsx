@@ -1,4 +1,4 @@
-import { useState, useRef } from 'react'
+import { useState } from 'react'
 import { useRecoilValue } from 'recoil'
 
 import { userState } from '../store/userInfo'
@@ -10,12 +10,14 @@ interface accountProps {
   accountNum: string
   balance: string
   cardIdx: number
+  updateAccount: () => void
 }
 
 export default function AccountCard({
   accountNum,
   balance,
   cardIdx,
+  updateAccount,
 }: accountProps) {
   const userInfo = useRecoilValue(userState)
   const [depositAmount, setDepositAmount] = useState<number>(0)
@@ -44,6 +46,7 @@ export default function AccountCard({
   const handleAddDeposit = () => {
     if (depositAmount !== undefined) {
       addDeposit(userInfo, accountNum, depositAmount)
+      updateAccount()
     } else {
       alert('입금 금액을 입력해주세요.')
     }
@@ -85,6 +88,7 @@ export default function AccountCard({
             transferAmount={transferAmount}
             resetTransferAmount={resetAmount}
             handleTransferAmount={handleTransferAmount}
+            updateAccount={updateAccount}
             modalId={`transfer${cardIdx}`}
           />
         </div>
