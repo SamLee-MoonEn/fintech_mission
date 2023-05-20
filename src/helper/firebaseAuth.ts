@@ -43,11 +43,9 @@ const createNewAccount = (
     balance: 0,
     transactions: {},
   }
-  // const newAccountKey = push(child(ref(firebasedb), 'Account')).key
   const updates: any = {}
   updates[`${userUid}/Account/` + accountNum] = accountData
   update(ref(firebasedb), updates)
-  // push(ref(firebasedb, `${userUid}/Account`), accountData)
 }
 
 // Account 정보 불러오기. any type 변경 필요
@@ -192,6 +190,53 @@ const getTransectionsInfo = async (userUid: string, accountNum: string) => {
     console.error(err)
   }
 }
+// 관심 주식 정보 DB에 저장
+const setInterestedStockInfoToFirebase = (
+  userUid: string,
+  stockCode: string,
+  stockName: string,
+) => {
+  const stockData = {
+    종목코드: stockCode,
+    종목명: stockName,
+  }
+  try {
+    const updates: any = {}
+    updates[`${userUid}/Stock/` + stockCode] = stockData
+    update(ref(firebasedb), updates)
+  } catch (e) {
+    console.error(e)
+  }
+}
+
+// 관심 주식 정보 가져오기
+const getInterestedStockInfoFromFirebase = async (userUid: string) => {
+  const data = await get(child(ref(firebasedb), `${userUid}/Stock`))
+  try {
+    if (data.exists()) {
+      const stockList = data.val()
+      return stockList
+    } else {
+      console.log('data없음')
+      return []
+    }
+  } catch (err) {
+    console.error(err)
+  }
+}
+// 관심 주식 삭제
+const removeInterestedStockInfoFromFirebase = async (
+  userUid: string,
+  stockCode: string,
+) => {
+  try {
+    const updates: any = {}
+    updates[`${userUid}/Stock/` + stockCode] = null
+    update(ref(firebasedb), updates)
+  } catch (e) {
+    console.error(e)
+  }
+}
 
 // Google 로그인
 const handleGoogleLogin = async () => {
@@ -214,4 +259,7 @@ export {
   addDeposit,
   accountTransfer,
   getTransectionsInfo,
+  setInterestedStockInfoToFirebase,
+  getInterestedStockInfoFromFirebase,
+  removeInterestedStockInfoFromFirebase,
 }
