@@ -15,7 +15,7 @@ export default function ChartCard({ transectionsData, accountNum }: any) {
     )
   }
   const [chartType, setChartType] = useState('ColumnChart')
-  const [isPercent, setIsPercent] = useState(true)
+  const [isPercent, setIsPercent] = useState(false)
 
   const data = [['날짜', '입금', '출금', '지출'], ...transectionsData]
   const handleChartType = (e: React.ChangeEvent<HTMLSelectElement>) => {
@@ -28,6 +28,7 @@ export default function ChartCard({ transectionsData, accountNum }: any) {
       setIsPercent(false)
     }
   }
+
   const option: any = {
     width: '100%',
     height: 300,
@@ -55,8 +56,8 @@ export default function ChartCard({ transectionsData, accountNum }: any) {
               onChange={handleChartType}
               id={`chartType${accountNum}`}
             >
-              <option value="ColumnChartPercent">막대 차트(100%)</option>
               <option value="ColumnChart">막대 차트</option>
+              <option value="ColumnChartPercent">막대 차트(100%)</option>
               <option value="LineChart">선 차트</option>
             </select>
           </form>

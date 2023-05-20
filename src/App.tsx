@@ -7,6 +7,7 @@ import MainPage from './pages/MainPage'
 import AccountInfo from './pages/AccountInfo'
 import ExpenseInfo from './pages/ExpenseInfo'
 import Sidebar from './components/Sidebar'
+import StockInfo from './pages/StockInfo'
 
 function App() {
   return (
@@ -21,6 +22,7 @@ function App() {
             <Route path="/main" element={<MainPage />} />
             <Route path="/accountinfo" element={<AccountInfo />} />
             <Route path="/expenseinfo" element={<ExpenseInfo />} />
+            <Route path="/stockinfo" element={<StockInfo />} />
           </Routes>
         </section>
         <Sidebar />
