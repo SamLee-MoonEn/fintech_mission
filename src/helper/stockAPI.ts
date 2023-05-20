@@ -1,13 +1,13 @@
 import axios from 'axios'
 
-export const fetchStockData = async () => {
+export const fetchStockData = async (stockCode: string, stockCount: number) => {
   try {
     const response = await axios.get(
       'https://apis.data.go.kr/1160100/service/GetStockSecuritiesInfoService/getStockPriceInfo',
       {
         params: {
-          likeIsinCd: '98460',
-          numOfRows: 100,
+          likeIsinCd: stockCode,
+          numOfRows: stockCount,
           resultType: 'json',
           serviceKey:
             'ytj1pbLOunGrhLDAAyAE2MZUzFBMKulAgaXYzRkch0GJPL3iKzhZhUIlPdKrmvi0IztbY+pjpvnLkiUDnjvMMw==',
@@ -25,7 +25,6 @@ export const fetchStockData = async () => {
 
 // 전달 받은 주식 정보를 react google chart에서 쓸 수 있도록 배열로 변경.
 const setStockDataToList = (stockData: any) => {
-  console.log(stockData)
   const stockDate = stockData.map((v: any) => v['basDt'])
   const stockOpen = stockData.map((v: any) => Number(v['mkp']))
   const stockClose = stockData.map((v: any) => Number(v['clpr']))
