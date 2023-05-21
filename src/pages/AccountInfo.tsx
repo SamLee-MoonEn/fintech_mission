@@ -85,7 +85,7 @@ export default function AccountInfo() {
           ))}
           <label
             htmlFor="new-account"
-            className="btn w-full bg-neutral text-primary-content shadow-xl items-center text-3xl h-20"
+            className="btn w-full bg-primary text-primary-content shadow-xl items-center text-3xl h-20"
             onClick={creatNewAccountNum}
           >
             계좌추가 +
@@ -112,7 +112,10 @@ export default function AccountInfo() {
                 onChangePassword={handleNewPassword}
                 key="password"
               />
-              <button onClick={handleCreateNewAccount} className="btn text-2xl">
+              <button
+                onClick={handleCreateNewAccount}
+                className="btn text-2xl bg-primary"
+              >
                 계좌 생성
               </button>
             </div>
