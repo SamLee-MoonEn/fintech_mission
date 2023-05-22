@@ -8,6 +8,7 @@ import AccountInfo from './pages/AccountInfo'
 import ExpenseInfo from './pages/ExpenseInfo'
 import Sidebar from './components/Sidebar'
 import StockInfo from './pages/StockInfo'
+import ExchangeRateInfo from './pages/ExchangeRateInfo'
 
 function App() {
   return (
@@ -23,6 +24,7 @@ function App() {
             <Route path="/accountinfo" element={<AccountInfo />} />
             <Route path="/expenseinfo" element={<ExpenseInfo />} />
             <Route path="/stockinfo" element={<StockInfo />} />
+            <Route path="/exchangerateinfo" element={<ExchangeRateInfo />} />
           </Routes>
         </section>
         <Sidebar />

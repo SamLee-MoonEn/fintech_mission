@@ -29,7 +29,11 @@ export default function Sidebar() {
               주식정보
             </a>
           </li>
-          <li className="btn btn-outline w-full mb-1">환율정보</li>
+          <li className="btn btn-outline w-full mb-1">
+            <a href="/exchangerateinfo" className="w-full pt-4 pb-4">
+              환율정보
+            </a>
+          </li>
           <li className="btn btn-outline w-full mb-1">
             <a href="/" onClick={handleLogOut} className="w-full pt-4 pb-4">
               로그아웃

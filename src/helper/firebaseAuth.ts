@@ -238,6 +238,51 @@ const removeInterestedStockInfoFromFirebase = async (
   }
 }
 
+// 관심 환율 정보 DB에 저장
+const setInterestedExchangeRateToFirebase = (
+  userUid: string,
+  curCode: string,
+) => {
+  const exchangeRateData = {
+    환율코드: curCode,
+  }
+  try {
+    const updates: any = {}
+    updates[`${userUid}/Currency/` + curCode] = exchangeRateData
+    update(ref(firebasedb), updates)
+  } catch (e) {
+    console.error(e)
+  }
+}
+// 관심 환율 정보 가져오기
+const getInterestedExchangeRateFromFirebase = async (userUid: string) => {
+  try {
+    const data = await get(child(ref(firebasedb), `${userUid}/Currency`))
+    if (data.exists()) {
+      const exchangeRateList = data.val()
+      return exchangeRateList
+    } else {
+      console.log('data없음')
+      return []
+    }
+  } catch (err) {
+    console.error(err)
+  }
+}
+// 관심 환율 삭제
+const removeInterestedExchangeRateFromFirebase = async (
+  userUid: string,
+  curCode: string,
+) => {
+  try {
+    const updates: any = {}
+    updates[`${userUid}/Currency/` + curCode] = null
+    update(ref(firebasedb), updates)
+  } catch (e) {
+    console.error(e)
+  }
+}
+
 // Google 로그인
 const handleGoogleLogin = async () => {
   const provider = new GoogleAuthProvider()
@@ -262,4 +307,7 @@ export {
   setInterestedStockInfoToFirebase,
   getInterestedStockInfoFromFirebase,
   removeInterestedStockInfoFromFirebase,
+  setInterestedExchangeRateToFirebase,
+  getInterestedExchangeRateFromFirebase,
+  removeInterestedExchangeRateFromFirebase,
 }
