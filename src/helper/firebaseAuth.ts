@@ -124,16 +124,14 @@ const accountTransfer = async (
       child(ref(firebasedb), `${userUid}/Account/${accountNum}/password`),
     )
     if (accountPassword.val() !== password) {
-      alert('비밀번호가 일치하지 않습니다.')
-      return
+      return 'wrongPassword'
     }
     const data = await get(
       child(ref(firebasedb), `${userUid}/Account/${accountNum}/balance`),
     )
     const balance = data.val()
     if (balance < transferAmount) {
-      alert('잔액이 부족합니다.')
-      return
+      return 'noBalance'
     }
     // 출금 시에 입력하는 키 값 날짜 형식으로 생성.(yyyy-MM-dd)
     const newTransectionKey = dateFormatMaker(new Date())
@@ -160,7 +158,7 @@ const accountTransfer = async (
         transactionsData.val()[3],
       ]
       update(ref(firebasedb), updates)
-      return
+      return 'success'
     }
     // 기존의 키 값이 없는 경우에는 새로 생성.
     // [날짜, 입금, 출금, 지출]
@@ -168,8 +166,10 @@ const accountTransfer = async (
       `${userUid}/Account/${accountNum}/transection/` + newTransectionKey
     ] = [newTransectionKey, 0, transferAmount, 0]
     update(ref(firebasedb), updates)
+    return 'success'
   } catch (err) {
     console.log(err)
+    return 'error'
   }
 }
 

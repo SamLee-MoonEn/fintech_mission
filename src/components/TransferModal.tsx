@@ -4,6 +4,7 @@ import { useRecoilValue } from 'recoil'
 import { userState } from '../store/userInfo'
 import { accountTransfer } from '../helper/firebaseAuth'
 import PasswordKeypad from './PasswordKeypad'
+import TransferStateModal from './TransferStateModal'
 
 interface Props {
   accountNum: string
@@ -24,6 +25,7 @@ export default function TransferModal({
 }: Props) {
   const userInfo = useRecoilValue(userState)
   const [transferPassword, setTransferPassword] = useState('')
+  const [transferState, setTransferState] = useState<string>('')
 
   const handleTransferPassword = (password: string) => {
     setTransferPassword(password)
@@ -34,10 +36,20 @@ export default function TransferModal({
     setTransferPassword('')
   }
 
-  const handleAccountTransfer = () => {
-    accountTransfer(userInfo, accountNum, transferAmount, transferPassword)
+  const handleAccountTransfer = async () => {
+    setTransferState(
+      await accountTransfer(
+        userInfo,
+        accountNum,
+        transferAmount,
+        transferPassword,
+      ),
+    )
     updateAccount()
     handleResetTransferModal()
+  }
+  const handleResetState = () => {
+    setTransferState('')
   }
 
   return (
@@ -77,6 +89,10 @@ export default function TransferModal({
           </label>
         </div>
       </div>
+      <TransferStateModal
+        state={transferState}
+        handleReset={handleResetState}
+      />
     </>
   )
 }
