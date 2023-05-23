@@ -1,7 +1,7 @@
 import { useRecoilValueLoadable } from 'recoil'
 
 import { userAccountList, userTransectionsInfo } from '../store/userInfo'
-import ChartCard from '../components/ChartCard'
+import ChartCard from '../components/cards/ChartCard'
 
 export default function ExpenseInfo() {
   const userTransectionsInfoLoadable =

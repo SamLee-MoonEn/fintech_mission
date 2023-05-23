@@ -5,7 +5,7 @@ import { getInterestedStockInfoFromFirebase } from '../helper/firebaseAuth'
 import { userState } from '../store/userInfo'
 
 import StockModal from '../components/StockModal'
-import StockInfoCard from '../components/StockInfoCard'
+import StockInfoCard from '../components/cards/StockInfoCard'
 
 export default function StockInfo() {
   const userUid = useRecoilValue(userState)

@@ -1,9 +1,9 @@
 import { useEffect, useState } from 'react'
 import { useRecoilValue } from 'recoil'
 
-import { fetchExchageRateData } from '../helper/exchangeRateAPI'
-import { removeInterestedExchangeRateFromFirebase } from '../helper/firebaseAuth'
-import { userState } from '../store/userInfo'
+import { fetchExchageRateData } from '../../helper/exchangeRateAPI'
+import { removeInterestedExchangeRateFromFirebase } from '../../helper/firebaseAuth'
+import { userState } from '../../store/userInfo'
 
 interface Props {
   bkpr: string

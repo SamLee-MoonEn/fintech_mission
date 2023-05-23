@@ -1,5 +1,5 @@
 import { Chart, GoogleChartWrapperChartType } from 'react-google-charts'
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 
 export default function ChartCard({ transectionsData, accountNum }: any) {
   if (!transectionsData.length) {

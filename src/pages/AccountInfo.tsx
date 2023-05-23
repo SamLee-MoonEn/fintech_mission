@@ -5,7 +5,7 @@ import { useQuery, useMutation, useQueryClient } from 'react-query'
 import { userState } from '../store/userInfo'
 import { createNewAccount, getAccountInfo } from '../helper/firebaseAuth'
 import { createRandomAccountNum } from '../helper/helper'
-import AccountCard from '../components/AccountCard'
+import AccountCard from '../components/cards/AccountCard'
 import PasswordKeypad from '../components/PasswordKeypad'
 
 export default function AccountInfo() {

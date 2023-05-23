@@ -4,7 +4,7 @@ import { useQuery, useMutation, useQueryClient } from 'react-query'
 import { getInterestedExchangeRateFromFirebase } from '../helper/firebaseAuth'
 import ExchangeRateModal from '../components/ExchangeRateModal'
 import { userState } from '../store/userInfo'
-import ExchangeRateCard from '../components/ExchangeRateCard'
+import ExchangeRateCard from '../components/cards/ExchangeRateCard'
 
 export default function ExchangeRateInfo() {
   const userUid = useRecoilValue(userState)

@@ -2,9 +2,9 @@ import React, { useEffect, useState } from 'react'
 import { useRecoilValue } from 'recoil'
 import { Chart } from 'react-google-charts'
 
-import { fetchStockData } from '../helper/stockAPI'
-import { removeInterestedStockInfoFromFirebase } from '../helper/firebaseAuth'
-import { userState } from '../store/userInfo'
+import { fetchStockData } from '../../helper/stockAPI'
+import { removeInterestedStockInfoFromFirebase } from '../../helper/firebaseAuth'
+import { userState } from '../../store/userInfo'
 
 export default function StockInfoCard({
   stockCode,
