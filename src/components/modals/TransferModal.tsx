@@ -1,9 +1,9 @@
 import { useState } from 'react'
 import { useRecoilValue } from 'recoil'
 
-import { userState } from '../store/userInfo'
-import { accountTransfer } from '../helper/firebaseAuth'
-import PasswordKeypad from './PasswordKeypad'
+import { userState } from '../../store/userInfo'
+import { accountTransfer } from '../../helper/firebaseAuth'
+import PasswordKeypad from '../PasswordKeypad'
 import TransferStateModal from './TransferStateModal'
 
 interface Props {

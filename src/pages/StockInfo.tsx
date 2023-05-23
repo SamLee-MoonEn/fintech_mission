@@ -4,7 +4,7 @@ import { useQuery, useMutation, useQueryClient } from 'react-query'
 import { getInterestedStockInfoFromFirebase } from '../helper/firebaseAuth'
 import { userState } from '../store/userInfo'
 
-import StockModal from '../components/StockModal'
+import StockModal from '../components/modals/StockModal'
 import StockInfoCard from '../components/cards/StockInfoCard'
 
 export default function StockInfo() {

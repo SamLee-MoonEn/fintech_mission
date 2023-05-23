@@ -3,8 +3,8 @@ import { useRecoilValue } from 'recoil'
 
 import { userState } from '../../store/userInfo'
 import { addDeposit } from '../../helper/firebaseAuth'
-import DepositModal from '../DepositModal'
-import TransferModal from '../TransferModal'
+import DepositModal from '../modals/DepositModal'
+import TransferModal from '../modals/TransferModal'
 
 interface accountProps {
   accountNum: string
