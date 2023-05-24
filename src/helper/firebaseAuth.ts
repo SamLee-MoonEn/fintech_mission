@@ -7,7 +7,8 @@ import {
   signInWithPopup,
 } from 'firebase/auth'
 import { getDatabase, ref, get, child, update } from 'firebase/database'
-import { dateFormatMaker } from './helper'
+
+import { dateFormatMaker, dateTimeFormatMaker } from './helper'
 
 const {
   VITE_FIREBASE_API_KEY,
@@ -172,7 +173,7 @@ const accountTransfer = async (
     return 'error'
   }
 }
-
+// QR 지출 기록 기능
 const payment = async (userUid: string, accountNum: string, amount: number) => {
   try {
     const data = await get(
@@ -325,6 +326,40 @@ const removeInterestedExchangeRateFromFirebase = async (
     console.error(e)
   }
 }
+// Shortcut Card 정보 DB에 저장
+const setShortcutDataToFirebase = (
+  userUid: string,
+  shortcutCardType: string,
+  detailInfo: string,
+) => {
+  try {
+    const newShortcutKey = dateTimeFormatMaker(new Date())
+    const shortcutInfo = {
+      shortcutCardType: shortcutCardType,
+      detailInfo: detailInfo,
+    }
+    const updates: any = {}
+    updates[`${userUid}/Shortcut/` + newShortcutKey] = shortcutInfo
+    update(ref(firebasedb), updates)
+  } catch (e) {
+    console.error(e)
+  }
+}
+// Shortcut Card 정보 DB에서 가져오기
+const getShortcutDataFromFirebase = async (userUid: string) => {
+  try {
+    const data = await get(child(ref(firebasedb), `${userUid}/Shortcut`))
+    if (data.exists()) {
+      const ShortcutCardList = data.val()
+      return ShortcutCardList
+    } else {
+      console.log('data없음')
+      return []
+    }
+  } catch (err) {
+    console.error(err)
+  }
+}
 
 // Google 로그인
 const handleGoogleLogin = async () => {
@@ -354,4 +389,6 @@ export {
   setInterestedExchangeRateToFirebase,
   getInterestedExchangeRateFromFirebase,
   removeInterestedExchangeRateFromFirebase,
+  setShortcutDataToFirebase,
+  getShortcutDataFromFirebase,
 }
