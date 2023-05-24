@@ -2,6 +2,8 @@ import { useState } from 'react'
 import { useRecoilValue } from 'recoil'
 
 import { userState } from '../store/userInfo'
+import ShortCutCard from '../components/cards/ShortCutCard'
+import ShortCutAddModal from '../components/modals/ShortCutAddModal'
 
 const items: { item: string }[] = [
   { item: 'a' },
@@ -10,6 +12,10 @@ const items: { item: string }[] = [
   { item: 'd' },
   { item: 'e' },
   { item: 'f' },
+  { item: 'g' },
+  { item: 'g' },
+  { item: 'g' },
+  { item: 'g' },
   { item: 'g' },
 ]
 
@@ -37,16 +43,7 @@ export default function MainPage() {
           })
         )}
       </div>
-    </div>
-  )
-}
-
-function ShotCutCard({ itemTitle }: { itemTitle: string }) {
-  return (
-    <div className="card bg-blue-300 h-36">
-      <div className="card-body">
-        <div className="card-title">{itemTitle}</div>
-      </div>
+      <ShortCutAddModal />
     </div>
   )
 }
@@ -54,14 +51,14 @@ function ShotCutCard({ itemTitle }: { itemTitle: string }) {
 function MainPageCards({ currentItems }: { currentItems: { item: string }[] }) {
   return (
     <>
-      <div className=" carousel-item w-full grid grid-cols-2 gap-4 ml-4 mr-4">
+      <div className=" carousel-item w-full grid grid-cols-2 h-full items-start gap-4 ml-4 mr-4">
         {currentItems.map((v) => {
-          return <ShotCutCard itemTitle={v.item} />
+          return <ShortCutCard itemTitle={v.item} />
         })}
         {currentItems.length === 8 ? (
           <></>
         ) : (
-          <label className="card btn h-36 bg-neutral">
+          <label htmlFor="shortCutAdd" className="card btn h-36 bg-neutral">
             <div className="card-body items-center justify-center">
               <div className="card-title">카드 추가</div>
               <div className="card-title">+</div>
