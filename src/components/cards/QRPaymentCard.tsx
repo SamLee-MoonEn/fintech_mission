@@ -9,7 +9,7 @@ export default function QRPaymentCard({
   handlePaymentAmount,
 }: {
   accountNum: string
-  idx: number
+  idx: number | string
   amount: number
   handlePayment: () => void
   resetAmount: () => void
