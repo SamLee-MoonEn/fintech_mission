@@ -1,7 +1,7 @@
 import { useRecoilValueLoadable } from 'recoil'
 
 import { userAccountList, userTransectionsInfo } from '../store/userInfo'
-import ChartCard from '../components/cards/ChartCard'
+import ExpenseChartCard from '../components/cards/ExpanseChartCard'
 
 export default function ExpenseInfo() {
   const userTransectionsInfoLoadable =
@@ -19,7 +19,7 @@ export default function ExpenseInfo() {
       <div className="flex w-full h-96 items-center mt-24 flex-col">
         <div className="w-8/12">
           {transectionDataList.map((v, idx) => (
-            <ChartCard
+            <ExpenseChartCard
               transectionsData={v}
               accountNum={accounts[idx]}
               key={idx}

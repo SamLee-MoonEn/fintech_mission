@@ -6,10 +6,13 @@ import { userState } from '../store/userInfo'
 
 import StockModal from '../components/modals/StockModal'
 import StockInfoCard from '../components/cards/StockInfoCard'
+import { useEffect, useState } from 'react'
+import Loading from '../components/Loading'
 
 export default function StockInfo() {
   const userUid = useRecoilValue(userState)
   const queryClient = useQueryClient()
+  const [displayLoading, setDisplayLoading] = useState(true)
 
   //useQuery 사용
   const { isLoading, isError, error, data }: any = useQuery('stockData', () => {

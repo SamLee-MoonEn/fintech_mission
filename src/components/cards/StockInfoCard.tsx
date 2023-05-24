@@ -5,6 +5,7 @@ import { Chart } from 'react-google-charts'
 import { fetchStockData } from '../../helper/stockAPI'
 import { removeInterestedStockInfoFromFirebase } from '../../helper/firebaseAuth'
 import { userState } from '../../store/userInfo'
+import Loading from '../Loading'
 
 export default function StockInfoCard({
   stockCode,
@@ -18,6 +19,7 @@ export default function StockInfoCard({
   const userUid = useRecoilValue(userState)
   const [stockDataList, setStockDataList] = useState([])
   const [stockCount, setStocCount] = useState(100)
+  const [displayLoading, setDisplayLoading] = useState(true)
 
   const getStockData = async (stockCount: number) => {
     const result = await fetchStockData(stockCode, stockCount)
@@ -30,6 +32,9 @@ export default function StockInfoCard({
   }
   useEffect(() => {
     getStockData(stockCount)
+    let isLoading = setTimeout(() => {
+      setDisplayLoading(false)
+    }, 2000)
   }, [stockCount])
 
   const handleStockCount = (e: React.ChangeEvent<HTMLSelectElement>) => {
@@ -63,39 +68,49 @@ export default function StockInfoCard({
   }
 
   return (
-    <div className="card w-full bg-white border-2 border-solid border-slate-600 text-primary-content mb-4">
-      <div className="card-body">
-        <div className="flex items-center">
-          <h2 className=" card-title text-black">{stockName}</h2>
-          <form className="text-black ml-auto">
-            <select
-              placeholder="표시 일봉 수"
-              name="표시 일봉 수"
-              id={`dataCount${stockCode}`}
-              onChange={handleStockCount}
-              className="w-16 text-center"
+    <>
+      <div className="card w-full bg-white border-2 border-solid border-slate-600 text-primary-content mb-4">
+        <div className="card-body">
+          <div className="flex items-center">
+            <h2 className=" card-title text-black">{stockName}</h2>
+            <form className="text-black ml-auto">
+              <select
+                placeholder="표시 일봉 수"
+                name="표시 일봉 수"
+                id={`dataCount${stockCode}`}
+                onChange={handleStockCount}
+                className="w-16 text-center"
+              >
+                <option value={100}>100</option>
+                <option value={50}>50</option>
+                <option value={30}>30</option>
+              </select>
+            </form>
+            <button
+              onClick={removeStockInfo}
+              className="btn btn-ghost ml-4 text-black"
             >
-              <option value={100}>100</option>
-              <option value={50}>50</option>
-              <option value={30}>30</option>
-            </select>
-          </form>
-          <button
-            onClick={removeStockInfo}
-            className="btn btn-ghost ml-4 text-black"
-          >
-            삭제
-          </button>
-        </div>
-        <div style={{ width: '110%' }}>
-          <Chart
-            chartType={'CandlestickChart'}
-            loader={<div className=" h-36 text-black">...Loading Chart</div>}
-            data={data}
-            options={option}
-          />
+              삭제
+            </button>
+          </div>
+          {displayLoading ? (
+            <div className="w-full flex items-center justify-center">
+              <Loading />
+            </div>
+          ) : (
+            <div style={{ width: '110%' }}>
+              <Chart
+                chartType={'CandlestickChart'}
+                loader={
+                  <div className=" h-36 text-black">...Loading Chart</div>
+                }
+                data={data}
+                options={option}
+              />
+            </div>
+          )}
         </div>
       </div>
-    </div>
+    </>
   )
 }

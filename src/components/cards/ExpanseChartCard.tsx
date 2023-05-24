@@ -1,7 +1,10 @@
 import { Chart, GoogleChartWrapperChartType } from 'react-google-charts'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 
-export default function ChartCard({ transectionsData, accountNum }: any) {
+export default function ExpenseChartCard({
+  transectionsData,
+  accountNum,
+}: any) {
   if (!transectionsData.length) {
     return (
       <div className="card w-full bg-white border-2 border-solid border-slate-600 text-primary-content mb-4">
@@ -14,10 +17,26 @@ export default function ChartCard({ transectionsData, accountNum }: any) {
       </div>
     )
   }
+  const [data, setData] = useState<string[][]>([])
   const [chartType, setChartType] = useState('ColumnChart')
   const [isPercent, setIsPercent] = useState(false)
+  const initialData = [['날짜', '입금', '출금', '지출'], ...transectionsData]
 
-  const data = [['날짜', '입금', '출금', '지출'], ...transectionsData]
+  useEffect(() => {
+    setData([['날짜', '입금', '출금', '지출'], ...transectionsData])
+  }, [])
+
+  const handleDataFilter = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    if (Number(e.target.value) === 0) {
+      setData([['날짜', '입금', '출금', '지출'], ...transectionsData])
+      return
+    }
+    const filteredData = initialData.map((v) => {
+      return [v[0], v[Number(e.target.value)]]
+    })
+    setData(filteredData)
+  }
+
   const handleChartType = (e: React.ChangeEvent<HTMLSelectElement>) => {
     e.preventDefault()
     if (e.target.value === 'ColumnChartPercent') {
@@ -50,6 +69,18 @@ export default function ChartCard({ transectionsData, accountNum }: any) {
         <h2 className=" card-title text-black">지출정보 {accountNum}</h2>
         <div className="flex justify-end">
           <form className="text-black">
+            <select
+              placeholder="표시 정보 선택"
+              name="표시 정보 선택"
+              onChange={handleDataFilter}
+              id={`dataType${accountNum}`}
+              className="mr-2"
+            >
+              <option value={0}>전체</option>
+              <option value={1}>입금</option>
+              <option value={2}>송금</option>
+              <option value={3}>지출</option>
+            </select>
             <select
               placeholder="표시 차트 선택"
               name="표시 차트 선택"
