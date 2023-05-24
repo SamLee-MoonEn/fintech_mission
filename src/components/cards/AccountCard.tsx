@@ -1,11 +1,11 @@
 import { useState } from 'react'
 import { useRecoilValue } from 'recoil'
-import { QRCodeSVG } from 'qrcode.react'
 
 import { userState } from '../../store/userInfo'
-import { addDeposit } from '../../helper/firebaseAuth'
+import { addDeposit, payment } from '../../helper/firebaseAuth'
 import DepositModal from '../modals/DepositModal'
 import TransferModal from '../modals/TransferModal'
+import QRPaymentCard from './QRPaymentCard'
 
 interface accountProps {
   accountNum: string
@@ -21,42 +21,40 @@ export default function AccountCard({
   updateAccount,
 }: accountProps) {
   const userInfo = useRecoilValue(userState)
-  const [depositAmount, setDepositAmount] = useState<number>(0)
-  const [transferAmount, setTransferAmount] = useState<number>(0)
+  const [amount, setAmount] = useState<number>(0)
 
-  const handleDepositAmount = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const amount = Number(e.target.value)
-    if (isNaN(amount)) {
+  const handleAmount = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const tempAmount = Number(e.target.value)
+    if (isNaN(tempAmount)) {
       alert('숫자를 입력해 주세요.')
-      setDepositAmount(0)
+      setAmount(0)
       return
     }
-    setDepositAmount(amount)
-  }
-
-  const handleTransferAmount = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const amount = Number(e.target.value)
-    if (isNaN(amount)) {
-      alert('숫자를 입력해 주세요.')
-      setTransferAmount(0)
-      return
-    }
-    setTransferAmount(amount)
+    setAmount(tempAmount)
   }
 
   const handleAddDeposit = () => {
-    if (depositAmount !== undefined) {
-      addDeposit(userInfo, accountNum, depositAmount)
+    if (amount !== undefined) {
+      addDeposit(userInfo, accountNum, amount)
       updateAccount()
     } else {
       alert('입금 금액을 입력해주세요.')
     }
-    setDepositAmount(0)
+    setAmount(0)
+  }
+
+  const handlePayment = () => {
+    if (amount !== undefined) {
+      payment(userInfo, accountNum, amount)
+      updateAccount()
+    } else {
+      alert('지불 금액을 입력해주세요.')
+    }
+    setAmount(0)
   }
 
   const resetAmount = () => {
-    setDepositAmount(0)
-    setTransferAmount(0)
+    setAmount(0)
   }
   return (
     <div className=" card w-full bg-neutral text-primary-content shadow-xl mb-10">
@@ -72,10 +70,10 @@ export default function AccountCard({
           </label>
           <DepositModal
             accountNum={accountNum}
-            depositAmount={depositAmount}
+            depositAmount={amount}
             resetDeposit={resetAmount}
             handleAddDeposit={handleAddDeposit}
-            handleDepositAmount={handleDepositAmount}
+            handleDepositAmount={handleAmount}
             modalId={`addDeposit${cardIdx}`}
           />
           <label
@@ -86,43 +84,26 @@ export default function AccountCard({
           </label>
           <TransferModal
             accountNum={accountNum}
-            transferAmount={transferAmount}
+            transferAmount={amount}
             resetTransferAmount={resetAmount}
-            handleTransferAmount={handleTransferAmount}
+            handleTransferAmount={handleAmount}
             updateAccount={updateAccount}
             modalId={`transfer${cardIdx}`}
           />
-          <label htmlFor={'QR'} className="btn btn-primary text-xl mt-4 w-36">
+          <label
+            htmlFor={`QR${cardIdx}`}
+            className="btn btn-primary text-xl mt-4 w-36"
+          >
             QR 결제
           </label>
-          <input type="checkbox" id={`QR`} className="modal-toggle" />
-          <div className="modal">
-            <div className=" overflow-visible relative bg-white p-14 rounded-xl">
-              <label
-                htmlFor={`QR`}
-                className="btn btn-square btn-outline absolute right-2 top-2"
-              >
-                ✕
-              </label>
-              <div className="flex flex-col justify-center items-center mb-4">
-                <h3 className="text-lg font-bold text-black mb-4">
-                  계좌번호 {accountNum}
-                </h3>
-                <QRCodeSVG value={accountNum} size={256} />
-              </div>
-              <div className="ml-auto flex justify-end items-center mb-4">
-                <input
-                  className="input input-bordered text-black h-10 flex-1"
-                  value={transferAmount}
-                  onChange={handleTransferAmount}
-                ></input>
-                <p className="ml-4 text-black text-xl flex-grow-0">원</p>
-              </div>
-              <label htmlFor={`QR`} className="btn btn-primary text-xl w-full">
-                지출
-              </label>
-            </div>
-          </div>
+          <QRPaymentCard
+            accountNum={accountNum}
+            amount={amount}
+            idx={cardIdx}
+            handlePayment={handlePayment}
+            handlePaymentAmount={handleAmount}
+            resetAmount={resetAmount}
+          />
         </div>
       </div>
     </div>

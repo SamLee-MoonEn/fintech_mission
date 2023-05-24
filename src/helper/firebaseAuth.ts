@@ -173,6 +173,49 @@ const accountTransfer = async (
   }
 }
 
+const payment = async (userUid: string, accountNum: string, amount: number) => {
+  try {
+    const data = await get(
+      child(ref(firebasedb), `${userUid}/Account/${accountNum}/balance`),
+    )
+    const balance = data.val()
+    // 입금 시에 입력하는 키 값 날짜 형식으로 생성.(yyyy-MM-dd)
+    const newTransectionKey = dateFormatMaker(new Date())
+    // 기존에 키 값 가져오기.
+    const transactionsData = await get(
+      child(
+        ref(firebasedb),
+        `${userUid}/Account/${accountNum}/transection/` + newTransectionKey,
+      ),
+    )
+    const updates: any = {}
+    // 잔액 처리
+    updates[`${userUid}/Account/${accountNum}/balance`] = balance - amount
+    // 기존의 키값이 있는지 확인. 있는 경우 기존 데이터에 입금 추가
+    // [날짜, 입금, 출금, 지출]
+    if (transactionsData.exists()) {
+      updates[
+        `${userUid}/Account/${accountNum}/transection/` + newTransectionKey
+      ] = [
+        newTransectionKey,
+        transactionsData.val()[1],
+        transactionsData.val()[2],
+        transactionsData.val()[3] + amount,
+      ]
+      update(ref(firebasedb), updates)
+      return
+    }
+    // 기존의 키 값이 없는 경우에는 새로 생성.
+    // [날짜, 입금, 출금, 지출]
+    updates[
+      `${userUid}/Account/${accountNum}/transection/` + newTransectionKey
+    ] = [newTransectionKey, 0, 0, amount]
+    update(ref(firebasedb), updates)
+  } catch (err) {
+    console.log(err)
+  }
+}
+
 // 거래 리스트 정보 불러오기
 const getTransectionsInfo = async (userUid: string, accountNum: string) => {
   const data = await get(
@@ -302,6 +345,7 @@ export {
   handleGoogleLogin,
   getAccountInfo,
   addDeposit,
+  payment,
   accountTransfer,
   getTransectionsInfo,
   setInterestedStockInfoToFirebase,
