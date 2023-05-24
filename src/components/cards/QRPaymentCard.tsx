@@ -13,7 +13,7 @@ export default function QRPaymentCard({
   amount: number
   handlePayment: () => void
   resetAmount: () => void
-  handlePaymentAmount: () => void
+  handlePaymentAmount: (e: React.ChangeEvent<HTMLInputElement>) => void
 }) {
   return (
     <>
