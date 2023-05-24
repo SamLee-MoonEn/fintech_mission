@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import { useRecoilValue } from 'recoil'
+import { QRCodeSVG } from 'qrcode.react'
 
 import { userState } from '../../store/userInfo'
 import { addDeposit } from '../../helper/firebaseAuth'
@@ -91,6 +92,37 @@ export default function AccountCard({
             updateAccount={updateAccount}
             modalId={`transfer${cardIdx}`}
           />
+          <label htmlFor={'QR'} className="btn btn-primary text-xl mt-4 w-36">
+            QR 결제
+          </label>
+          <input type="checkbox" id={`QR`} className="modal-toggle" />
+          <div className="modal">
+            <div className=" overflow-visible relative bg-white p-14 rounded-xl">
+              <label
+                htmlFor={`QR`}
+                className="btn btn-square btn-outline absolute right-2 top-2"
+              >
+                ✕
+              </label>
+              <div className="flex flex-col justify-center items-center mb-4">
+                <h3 className="text-lg font-bold text-black mb-4">
+                  계좌번호 {accountNum}
+                </h3>
+                <QRCodeSVG value={accountNum} size={256} />
+              </div>
+              <div className="ml-auto flex justify-end items-center mb-4">
+                <input
+                  className="input input-bordered text-black h-10 flex-1"
+                  value={transferAmount}
+                  onChange={handleTransferAmount}
+                ></input>
+                <p className="ml-4 text-black text-xl flex-grow-0">원</p>
+              </div>
+              <label htmlFor={`QR`} className="btn btn-primary text-xl w-full">
+                지출
+              </label>
+            </div>
+          </div>
         </div>
       </div>
     </div>
