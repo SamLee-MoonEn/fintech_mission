@@ -27,13 +27,18 @@ export default function AccountShortcutCard({
     handleGetAccountInfo()
   }, [])
   return (
-    <div className="card card-bordered border-2 border-solid border-slate-400 h-36">
-      <div className="card-body">
-        <div className="card-title">{accountInfo?.accountNum}</div>
-        <div className="">
+    <a
+      href="/accountinfo"
+      className="btn btn-outline border-slate-400 border-solid border-2 h-36"
+    >
+      <div className="block w-full">
+        <div className="mb-4 text-left text-lg">
+          계좌번호 {accountInfo?.accountNum}
+        </div>
+        <div className="text-right text-2xl">
           잔고 {accountInfo?.balance.toLocaleString()}원
         </div>
       </div>
-    </div>
+    </a>
   )
 }
