@@ -26,3 +26,12 @@ export function dateFormatMaker(date: Date) {
     (date.getDate() < 9 ? '0' + date.getDate() : date.getDate())
   return dateFormat
 }
+export function dateTimeFormatMaker(date: Date) {
+  const dateFormat = `${date.getFullYear()}${
+    date.getMonth() + 1 < 9 ? '0' + (date.getMonth() + 1) : date.getMonth() + 1
+  }${
+    date.getDate() < 9 ? '0' + date.getDate() : date.getDate()
+  }${date.getHours()}${date.getMonth()}${date.getSeconds()}`
+
+  return dateFormat
+}
