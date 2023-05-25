@@ -31,7 +31,9 @@ export function dateTimeFormatMaker(date: Date) {
     date.getMonth() + 1 < 9 ? '0' + (date.getMonth() + 1) : date.getMonth() + 1
   }${
     date.getDate() < 9 ? '0' + date.getDate() : date.getDate()
-  }${date.getHours()}${date.getMonth()}${date.getSeconds()}`
+  }${date.getHours()}${date.getMonth()}${
+    date.getSeconds() < 9 ? '0' + date.getSeconds() : date.getSeconds()
+  }`
 
   return dateFormat
 }
