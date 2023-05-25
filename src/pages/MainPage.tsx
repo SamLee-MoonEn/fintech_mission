@@ -59,7 +59,7 @@ export default function MainPage() {
     return () => {
       container?.removeEventListener('wheel', handleScroll)
     }
-  }, [isLoading, isError, data])
+  }, [isLoading])
 
   // useMudataion을 이용해서 데이터 업데이트 시 서버에서 데이터 받아오기
   if (isLoading) {
