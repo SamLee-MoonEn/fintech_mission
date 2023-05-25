@@ -1,5 +1,6 @@
 import { useRecoilValue } from 'recoil'
 import { useQuery, useMutation, useQueryClient } from 'react-query'
+import React, { useRef, useEffect } from 'react'
 
 import { userState } from '../store/userInfo'
 import { getShortcutDataFromFirebase } from '../helper/firebaseAuth'
@@ -52,19 +53,42 @@ export default function MainPage() {
   }
 
   const currentItems = []
-
   if (data) {
     for (let i = 0; i < Math.ceil(Object.values(data).length / 8); i++) {
       currentItems.push(Object.values(data).slice(i * 8, i * 8 + 8))
     }
   }
 
+  const $container = useRef<HTMLDivElement>(null)
+  const $carousel = useRef<HTMLDivElement>(null)
+
+  useEffect(() => {
+    const container = $container.current
+    const carousel = $carousel.current
+
+    const handleScroll = (e: WheelEvent) => {
+      e.preventDefault()
+      carousel?.scrollBy({
+        left: e.deltaY,
+        behavior: 'smooth',
+      })
+    }
+    container?.addEventListener('wheel', handleScroll)
+
+    return () => {
+      container?.removeEventListener('wheel', handleScroll)
+    }
+  }, [])
+
   return (
     <>
-      <div className=" max-w-full md:max-w-[80%] ml-auto mr-auto flex flex-col justify-center items-center">
+      <div
+        ref={$container}
+        className=" max-w-full md:max-w-[80%] ml-auto mr-auto flex flex-col justify-center items-center"
+      >
         <div
+          ref={$carousel}
           className=" carousel w-full max-w-[80%] mt-24 overflow-y-hidden"
-          onWheel={handleScroll}
         >
           {Object.values(data as ShortcutCardDataType).length % 8 === 0 ? (
             <>

@@ -35,11 +35,3 @@ export function dateTimeFormatMaker(date: Date) {
 
   return dateFormat
 }
-
-export const handleScroll = (e: React.WheelEvent<HTMLDivElement>) => {
-  e.preventDefault()
-  e.currentTarget?.scrollBy({
-    left: e.deltaY,
-    behavior: 'smooth',
-  })
-}
