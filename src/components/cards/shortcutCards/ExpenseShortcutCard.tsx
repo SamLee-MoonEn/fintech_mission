@@ -11,10 +11,10 @@ interface AccountTypes {
 
 export default function ExpenseShortcutCard({
   data,
-  deleteKey,
+  removeCard,
 }: {
   data: AccountTypes
-  deleteKey: string
+  removeCard: () => void
 }) {
   const [todayExpenseInfo, setTodayExpenseInfo] = useState<string>()
   const today = dateFormatMaker(new Date())
@@ -26,9 +26,15 @@ export default function ExpenseShortcutCard({
   return (
     <a
       href="/expenseInfo"
-      className="btn bg-yellow-500 hover:bg-white hover:text-black hover:border-slate-400 hover:border-solid hover:border-1 h-36"
+      className="relative btn bg-yellow-500 hover:bg-white hover:text-black hover:border-slate-400 hover:border-solid hover:border-1 h-36"
     >
       <div className="block w-full">
+        <button
+          onClick={removeCard}
+          className=" btn btn-sm bg-transparent text-transparent text-black border-0 hover:bg-red-400 hover:text-white absolute top-3 right-3"
+        >
+          X
+        </button>
         <div className="mb-4 text-left text-lg">
           계좌 번호 {data.accountNum}
         </div>

@@ -8,10 +8,10 @@ import Loading from '../../Loading'
 
 export default function StockShortcutCard({
   data,
-  deleteKey,
+  removeCard,
 }: {
   data: string
-  deleteKey: string
+  removeCard: () => void
 }) {
   const [stockInfo, setStockInfo] = useState<string>('0')
   const [stockName, setStockName] = useState<string>('')
@@ -37,13 +37,19 @@ export default function StockShortcutCard({
   return (
     <a
       href="/stockinfo"
-      className="btn btn-outline border-slate-400 border-solid border-2 h-36"
+      className="relative btn btn-outline border-slate-400 border-solid border-2 h-36"
     >
       <div className="block w-full">
         {displayLoading ? (
           <Loading />
         ) : (
           <>
+            <button
+              onClick={removeCard}
+              className=" btn btn-sm bg-transparent text-transparent text-black border-0 hover:bg-red-400 hover:text-white absolute top-3 right-3"
+            >
+              X
+            </button>
             <div className="mb-4 text-left text-lg">{stockName}</div>
             <div className="flex justify-end">
               <div className="text-right text-2xl">전일 종가</div>

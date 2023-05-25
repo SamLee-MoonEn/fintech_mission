@@ -18,10 +18,10 @@ interface ExchangeRateType {
 
 export default function ExchangeRateShortcutCard({
   data,
-  deleteKey,
+  removeCard,
 }: {
   data: string
-  deleteKey: string
+  removeCard: () => void
 }) {
   const [exchangeRateData, setExchangeRateData] = useState<ExchangeRateType>()
 
@@ -32,13 +32,20 @@ export default function ExchangeRateShortcutCard({
   }
   useEffect(() => {
     getExchangeRateData()
-  }, [deleteKey])
+  }, [])
+
   return (
     <a
       href="/exchangerateinfo"
-      className="btn bg-sky-600 hover:bg-white hover:text-black hover:border-slate-400 hover:border-solid hover:border-1 h-36"
+      className="relative btn bg-sky-600 hover:bg-white hover:text-black hover:border-slate-400 hover:border-solid hover:border-1 h-36"
     >
       <div className="block w-full">
+      <button
+        onClick={removeCard}
+        className=" btn btn-sm bg-transparent text-transparent text-black border-0 hover:bg-red-400 hover:text-white absolute top-3 right-3"
+      >
+        X
+      </button>
         <div className="mb-4 text-left text-lg">{exchangeRateData?.cur_nm}</div>
         <div className="flex justify-end">
           <div className="text-right text-2xl">매매 기준율</div>

@@ -17,11 +17,11 @@ interface AccountTypes {
 export default function QRShortcutCard({
   data,
   updateAccount,
-  deleteKey,
+  removeCard,
 }: {
   data: AccountTypes
   updateAccount: () => void
-  deleteKey: string
+  removeCard: () => void
 }) {
   const [amount, setAmount] = useState<number>(0)
   const userUid = useRecoilValue(userState)
@@ -49,20 +49,13 @@ export default function QRShortcutCard({
     setAmount(0)
   }
 
-  const handleremoveShortcutDataFromFirebase = (
-    e: React.MouseEvent<HTMLButtonElement>,
-  ) => {
-    removeShortcutDataFromFirebase(userUid, deleteKey)
-    updateAccount()
-  }
-
   return (
     <>
       <label htmlFor={`QR${data.accountNum}`} className=" cursor-pointer">
         <div className="qrcode relative card border-slate-400 h-36">
           <div className="card-body btn btn-active hover:bg-white hover:text-black hover:border-slate-400 hover:border-solid hover:border-1">
             <button
-              onClick={handleremoveShortcutDataFromFirebase}
+              onClick={removeCard}
               className=" btn btn-sm bg-transparent text-transparent text-black border-0 hover:bg-red-400 hover:text-white absolute top-3 right-3"
             >
               X

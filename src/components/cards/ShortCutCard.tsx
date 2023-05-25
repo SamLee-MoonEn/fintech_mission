@@ -1,7 +1,10 @@
 import { useRecoilValue } from 'recoil'
 import { useQuery, useMutation, useQueryClient } from 'react-query'
 
-import { getAccountInfo } from '../../API/firebaseAuth'
+import {
+  getAccountInfo,
+  removeShortcutDataFromFirebase,
+} from '../../API/firebaseAuth'
 import { userState } from '../../store/userInfo'
 import AccountShortcutCard from './shortcutCards/AccountShortcutCard'
 import ExpenseShortcutCard from './shortcutCards/ExpenseShortcutCard'
@@ -25,7 +28,8 @@ export default function ShortCutCard({
     'accountDataforShortcut',
     () => {
       return getAccountInfo(userUid)
-    },{notifyOnChangeProps:['data']}
+    },
+    { notifyOnChangeProps: ['data'] },
   )
 
   // useMudataion을 이용해서 데이터 업데이트 시 서버에서 데이터 받아오기
@@ -50,6 +54,11 @@ export default function ShortCutCard({
     }, 1000)
   }
 
+  const handleremoveShortcutDataFromFirebase = () => {
+    removeShortcutDataFromFirebase(userUid, deleteKey)
+    updateShortcut()
+  }
+
   return (
     <>
       {(() => {
@@ -57,7 +66,7 @@ export default function ShortCutCard({
           case 'QR':
             return (
               <QRShortcutCard
-                deleteKey={deleteKey}
+                removeCard={handleremoveShortcutDataFromFirebase}
                 data={data[detailInfo]}
                 updateAccount={updateShortcut}
                 key={`${detailInfo}-${Math.floor(Math.random() * 1000)}`}
@@ -66,7 +75,7 @@ export default function ShortCutCard({
           case 'Account':
             return (
               <AccountShortcutCard
-                deleteKey={deleteKey}
+                removeCard={handleremoveShortcutDataFromFirebase}
                 data={data[detailInfo]}
                 key={`${detailInfo}-${Math.floor(Math.random() * 1000)}`}
               />
@@ -74,7 +83,7 @@ export default function ShortCutCard({
           case 'Expense':
             return (
               <ExpenseShortcutCard
-                deleteKey={deleteKey}
+                removeCard={handleremoveShortcutDataFromFirebase}
                 data={data[detailInfo]}
                 key={`${detailInfo}-${Math.floor(Math.random() * 1000)}`}
               />
@@ -82,7 +91,7 @@ export default function ShortCutCard({
           case 'Stock':
             return (
               <StockShortcutCard
-                deleteKey={deleteKey}
+                removeCard={handleremoveShortcutDataFromFirebase}
                 data={detailInfo}
                 key={`${detailInfo}-${Math.floor(Math.random() * 1000)}`}
               />
@@ -90,7 +99,7 @@ export default function ShortCutCard({
           case 'Currency':
             return (
               <ExchangeRateShortcutCard
-                deleteKey={deleteKey}
+                removeCard={handleremoveShortcutDataFromFirebase}
                 data={detailInfo}
                 key={`${detailInfo}-${Math.floor(Math.random() * 1000)}`}
               />

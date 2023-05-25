@@ -8,18 +8,24 @@ interface AccountTypes {
 
 export default function AccountShortcutCard({
   data,
-  deleteKey,
+  removeCard,
 }: {
   data: AccountTypes
-  deleteKey: string
+  removeCard: () => void
 }) {
   const [accountInfo, setAccountInfo] = useState<AccountTypes>(data)
   return (
     <a
       href="/accountinfo"
-      className="btn bg-rose-500 hover:bg-white hover:text-black hover:border-slate-400 hover:border-solid hover:border-1 h-36"
+      className="relative btn bg-rose-500 hover:bg-white hover:text-black hover:border-slate-400 hover:border-solid hover:border-1 h-36"
     >
-      <div className="block w-full">
+      <div className=" block w-full">
+        <button
+          onClick={removeCard}
+          className=" btn btn-sm bg-transparent text-transparent text-black border-0 hover:bg-red-400 hover:text-white absolute top-3 right-3"
+        >
+          X
+        </button>
         <div className="mb-4 text-left text-lg">
           계좌번호 {accountInfo?.accountNum}
         </div>
