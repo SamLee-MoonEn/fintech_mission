@@ -22,6 +22,7 @@ export default function ExchangeRateShortcutCard({
 }: {
   data: string
   removeCard: () => void
+  removeCard: (e: React.MouseEvent<HTMLButtonElement>) => void
 }) {
   const [exchangeRateData, setExchangeRateData] = useState<ExchangeRateType>()
 

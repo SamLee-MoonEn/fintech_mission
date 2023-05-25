@@ -153,6 +153,7 @@ function MainPageCards({
               type={v.shortcutCardType}
               key={idx}
               deleteKey={deleteKey[idx]}
+              updateShortcutCard={updateShortcut}
             />
           )
         })}

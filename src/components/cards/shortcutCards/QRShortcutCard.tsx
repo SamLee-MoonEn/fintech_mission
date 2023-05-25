@@ -21,7 +21,7 @@ export default function QRShortcutCard({
 }: {
   data: AccountTypes
   updateAccount: () => void
-  removeCard: () => void
+  removeCard: (e: React.MouseEvent<HTMLButtonElement>) => void
 }) {
   const [amount, setAmount] = useState<number>(0)
   const userUid = useRecoilValue(userState)

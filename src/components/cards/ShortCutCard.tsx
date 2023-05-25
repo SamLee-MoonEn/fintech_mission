@@ -16,10 +16,12 @@ export default function ShortCutCard({
   detailInfo,
   type,
   deleteKey,
+  updateShortcutCard,
 }: {
   detailInfo: string
   type: string
   deleteKey: string
+  updateShortcutCard: () => Promise<void>
 }) {
   const userUid = useRecoilValue(userState)
   const queryClient = useQueryClient()
@@ -54,9 +56,15 @@ export default function ShortCutCard({
     }, 1000)
   }
 
-  const handleremoveShortcutDataFromFirebase = () => {
+  const handleremoveShortcutDataFromFirebase = (
+    e: React.MouseEvent<HTMLButtonElement>,
+  ) => {
+    e.preventDefault()
     removeShortcutDataFromFirebase(userUid, deleteKey)
     updateShortcut()
+    setTimeout(() => {
+      updateShortcutCard()
+    }, 500)
   }
 
   return (

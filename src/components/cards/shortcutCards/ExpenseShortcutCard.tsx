@@ -14,7 +14,7 @@ export default function ExpenseShortcutCard({
   removeCard,
 }: {
   data: AccountTypes
-  removeCard: () => void
+  removeCard: (e: React.MouseEvent<HTMLButtonElement>) => void
 }) {
   const [todayExpenseInfo, setTodayExpenseInfo] = useState<string>()
   const today = dateFormatMaker(new Date())

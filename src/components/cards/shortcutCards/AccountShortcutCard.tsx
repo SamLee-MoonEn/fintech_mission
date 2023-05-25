@@ -1,5 +1,3 @@
-import { useState } from 'react'
-
 interface AccountTypes {
   accountNum: string
   balance: number
@@ -11,9 +9,9 @@ export default function AccountShortcutCard({
   removeCard,
 }: {
   data: AccountTypes
-  removeCard: () => void
+  removeCard: (e: React.MouseEvent<HTMLButtonElement>) => void
 }) {
-  const [accountInfo, setAccountInfo] = useState<AccountTypes>(data)
+  const accountInfo: AccountTypes = data
   return (
     <a
       href="/accountinfo"

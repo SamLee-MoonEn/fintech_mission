@@ -11,7 +11,7 @@ export default function StockShortcutCard({
   removeCard,
 }: {
   data: string
-  removeCard: () => void
+  removeCard: (e: React.MouseEvent<HTMLButtonElement>) => void
 }) {
   const [stockInfo, setStockInfo] = useState<string>('0')
   const [stockName, setStockName] = useState<string>('')
