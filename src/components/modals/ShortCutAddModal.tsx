@@ -128,8 +128,11 @@ function AddAccountShortcutCard({
             카드로 추가할 계좌를 선택해 주세요.
           </h3>
           <form>
-            <select onChange={handlesetSelectedAccountNum}>
-              <option value="default" hidden selected disabled>
+            <select
+              defaultValue="default"
+              onChange={handlesetSelectedAccountNum}
+            >
+              <option value="default" hidden disabled>
                 계좌번호
               </option>
               {accountInfo?.map((v) => {
@@ -209,8 +212,11 @@ function AddExpenseShortcutCard({
             카드로 추가할 계좌를 선택해 주세요.
           </h3>
           <form>
-            <select onChange={handlesetSelectedAccountNum}>
-              <option value="default" hidden selected disabled>
+            <select
+              defaultValue="default"
+              onChange={handlesetSelectedAccountNum}
+            >
+              <option value="default" hidden disabled>
                 계좌번호
               </option>
               {accountInfo?.map((v) => {
@@ -286,8 +292,11 @@ function AddQRhortcutCard({
             카드로 추가할 계좌를 선택해 주세요.
           </h3>
           <form>
-            <select onChange={handlesetSelectedAccountNum}>
-              <option value="default" hidden selected disabled>
+            <select
+              defaultValue="default"
+              onChange={handlesetSelectedAccountNum}
+            >
+              <option value="default" hidden disabled>
                 계좌번호
               </option>
               {accountInfo?.map((v) => {
@@ -372,8 +381,8 @@ function AddStockShortcutCard({
             카드로 추가할 관심 주식을 선택해 주세요.
           </h3>
           <form>
-            <select onChange={handlesetSelectedStock}>
-              <option value="default" hidden selected disabled>
+            <select defaultValue="default" onChange={handlesetSelectedStock}>
+              <option value="default" hidden disabled>
                 관심 주식
               </option>
               {stockInfo?.map((v) => {
@@ -459,8 +468,11 @@ function AddExchangeRateShortcutCard({
             카드로 추가할 관심 환율을 선택해 주세요.
           </h3>
           <form>
-            <select onChange={handlesetSelectedExchangeRate}>
-              <option value="default" hidden selected disabled>
+            <select
+              defaultValue="default"
+              onChange={handlesetSelectedExchangeRate}
+            >
+              <option value="default" hidden disabled>
                 관심 환율
               </option>
               {exchangeRateInfo?.map((v) => {
