@@ -1,8 +1,6 @@
 import { useEffect, useState } from 'react'
 import { useRecoilValue } from 'recoil'
 
-import { getAccountInfo } from '../../../helper/firebaseAuth'
-import { userState } from '../../../store/userInfo'
 import { dateFormatMaker } from '../../../helper/helper'
 
 interface AccountTypes {
@@ -12,23 +10,12 @@ interface AccountTypes {
   transection: any
 }
 
-export default function ExpenseShortcutCard({
-  accountNum,
-}: {
-  accountNum: string
-}) {
-  const userUid = useRecoilValue(userState)
+export default function ExpenseShortcutCard({ data }: { data: AccountTypes }) {
   const [todayExpenseInfo, setTodayExpenseInfo] = useState<string>()
   const today = dateFormatMaker(new Date())
 
-  const handleGetAccountInfo = async () => {
-    const temp: { [key: string]: AccountTypes } = await getAccountInfo(userUid)
-    const todayExpense: number = temp[accountNum].transection[today]?.[3]
-    setTodayExpenseInfo(todayExpense?.toLocaleString())
-  }
-
   useEffect(() => {
-    handleGetAccountInfo()
+    setTodayExpenseInfo(data.transection[today]?.[3]?.toLocaleString())
   }, [])
 
   return (
@@ -37,7 +24,9 @@ export default function ExpenseShortcutCard({
       className="btn btn-outline border-slate-400 border-solid border-2 h-36"
     >
       <div className="block w-full">
-        <div className="mb-4 text-left text-lg">계좌 번호 {accountNum}</div>
+        <div className="mb-4 text-left text-lg">
+          계좌 번호 {data.accountNum}
+        </div>
         <div className="text-right text-2xl">
           {todayExpenseInfo
             ? `지출 ${todayExpenseInfo}`

@@ -10,22 +10,9 @@ interface AccountTypes {
   password: string
 }
 
-export default function AccountShortcutCard({
-  accountNum,
-}: {
-  accountNum: string
-}) {
-  const userUid = useRecoilValue(userState)
-  const [accountInfo, setAccountInfo] = useState<AccountTypes>()
+export default function AccountShortcutCard({ data }: { data: AccountTypes }) {
+  const [accountInfo, setAccountInfo] = useState<AccountTypes>(data)
 
-  const handleGetAccountInfo = async () => {
-    const temp: { [key: string]: AccountTypes } = await getAccountInfo(userUid)
-    setAccountInfo(temp[accountNum])
-  }
-
-  useEffect(() => {
-    handleGetAccountInfo()
-  }, [])
   return (
     <a
       href="/accountinfo"
