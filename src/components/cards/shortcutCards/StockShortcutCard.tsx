@@ -5,11 +5,6 @@ import { useRecoilValue } from 'recoil'
 import { userState } from '../../../store/userInfo'
 import { getInterestedStockInfoFromFirebase } from '../../../helper/firebaseAuth'
 
-interface StockType {
-  종목명: string
-  종목코드: string
-}
-
 export default function StockShortcutCard({ data }: { data: string }) {
   const [stockInfo, setStockInfo] = useState<string>('0')
   const [stockName, setStockName] = useState<string>('')
