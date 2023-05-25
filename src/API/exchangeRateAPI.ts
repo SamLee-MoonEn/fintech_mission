@@ -14,12 +14,11 @@ interface Props {
   yy_efee_r: string
 }
 
-// CORS 에러 발생 해결 방법은?
 export const fetchExchageRateData = async () => {
   try {
     const response = await axios.get('/api', {
       params: {
-        authkey: 'MSvG5HpQtDto4TH7q8ARTXqXwnxIdWhn',
+        authkey: 'XXmcviNkzbGTTXtMG32sfnLr9V5n9dMd',
         data: 'AP01',
       },
       headers: {
