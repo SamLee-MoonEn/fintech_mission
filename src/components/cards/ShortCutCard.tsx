@@ -1,7 +1,7 @@
 import { useRecoilValue } from 'recoil'
 import { useQuery, useMutation, useQueryClient } from 'react-query'
 
-import { getAccountInfo } from '../../helper/firebaseAuth'
+import { getAccountInfo } from '../../API/firebaseAuth'
 import { userState } from '../../store/userInfo'
 import AccountShortcutCard from './shortcutCards/AccountShortcutCard'
 import ExpenseShortcutCard from './shortcutCards/ExpenseShortcutCard'

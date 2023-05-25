@@ -7,7 +7,7 @@ import {
   auth,
   signInWithEmailAndPassword,
   createUserWithEmailAndPassword,
-} from '../helper/firebaseAuth'
+} from '../API/firebaseAuth'
 
 export default function SignUpPage() {
   const {

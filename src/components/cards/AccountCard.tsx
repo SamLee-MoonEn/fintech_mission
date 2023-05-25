@@ -2,7 +2,7 @@ import { useState } from 'react'
 import { useRecoilValue } from 'recoil'
 
 import { userState } from '../../store/userInfo'
-import { addDeposit, payment } from '../../helper/firebaseAuth'
+import { addDeposit, payment } from '../../API/firebaseAuth'
 import DepositModal from '../modals/DepositModal'
 import TransferModal from '../modals/TransferModal'
 import QRPaymentCard from './QRPaymentCard'

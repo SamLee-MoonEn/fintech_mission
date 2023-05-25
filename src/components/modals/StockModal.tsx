@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react'
 import { useRecoilValue } from 'recoil'
 
-import { fetchTickerSymbolSearcher } from '../../helper/stockAPI'
-import { setInterestedStockInfoToFirebase } from '../../helper/firebaseAuth'
+import { fetchTickerSymbolSearcher } from '../../API/stockAPI'
+import { setInterestedStockInfoToFirebase } from '../../API/firebaseAuth'
 import { userState } from '../../store/userInfo'
 
 export default function StockModal({

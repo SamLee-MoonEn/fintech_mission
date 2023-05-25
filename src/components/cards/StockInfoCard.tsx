@@ -2,8 +2,8 @@ import React, { useEffect, useState } from 'react'
 import { useRecoilValue } from 'recoil'
 import { Chart } from 'react-google-charts'
 
-import { fetchStockData } from '../../helper/stockAPI'
-import { removeInterestedStockInfoFromFirebase } from '../../helper/firebaseAuth'
+import { fetchStockData } from '../../API/stockAPI'
+import { removeInterestedStockInfoFromFirebase } from '../../API/firebaseAuth'
 import { userState } from '../../store/userInfo'
 import Loading from '../Loading'
 

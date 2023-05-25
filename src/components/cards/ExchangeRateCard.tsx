@@ -1,8 +1,8 @@
 import { useEffect, useState } from 'react'
 import { useRecoilValue } from 'recoil'
 
-import { fetchExchageRateData } from '../../helper/exchangeRateAPI'
-import { removeInterestedExchangeRateFromFirebase } from '../../helper/firebaseAuth'
+import { fetchExchageRateData } from '../../API/exchangeRateAPI'
+import { removeInterestedExchangeRateFromFirebase } from '../../API/firebaseAuth'
 import { userState } from '../../store/userInfo'
 
 interface ExchangeRateType {

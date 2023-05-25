@@ -1,7 +1,7 @@
 import { useRecoilValue } from 'recoil'
 import { useQuery, useMutation, useQueryClient } from 'react-query'
 
-import { getInterestedExchangeRateFromFirebase } from '../helper/firebaseAuth'
+import { getInterestedExchangeRateFromFirebase } from '../API/firebaseAuth'
 import ExchangeRateModal from '../components/modals/ExchangeRateModal'
 import { userState } from '../store/userInfo'
 import ExchangeRateCard from '../components/cards/ExchangeRateCard'

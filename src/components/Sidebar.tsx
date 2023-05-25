@@ -1,6 +1,6 @@
 import { useRecoilValue } from 'recoil'
 
-import { handleGoogleLogin } from '../helper/firebaseAuth'
+import { handleGoogleLogin } from '../API/firebaseAuth'
 import { userState } from '../store/userInfo'
 import googleIcon from '../assets/GoogleLogIn.png'
 

@@ -6,7 +6,7 @@ import {
   setShortcutDataToFirebase,
   getInterestedStockInfoFromFirebase,
   getInterestedExchangeRateFromFirebase,
-} from '../../helper/firebaseAuth'
+} from '../../API/firebaseAuth'
 import { useEffect, useState } from 'react'
 
 export default function ShortCutAddModal({

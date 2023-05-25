@@ -1,5 +1,5 @@
 import { atom, selector } from 'recoil'
-import { getAccountInfo } from '../helper/firebaseAuth'
+import { getAccountInfo } from '../API/firebaseAuth'
 
 export const userState = atom({
   key: 'user',

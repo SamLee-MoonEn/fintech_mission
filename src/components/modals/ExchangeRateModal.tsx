@@ -1,9 +1,9 @@
 import { useRecoilValue } from 'recoil'
 import { useState } from 'react'
 
-import { EXCHANGE_RATE_CODE } from '../../helper/exchangeRateAPI'
+import { EXCHANGE_RATE_CODE } from '../../API/exchangeRateAPI'
 import { userState } from '../../store/userInfo'
-import { setInterestedExchangeRateToFirebase } from '../../helper/firebaseAuth'
+import { setInterestedExchangeRateToFirebase } from '../../API/firebaseAuth'
 
 export default function ExchangeRateModal({
   updateExchangeRate,

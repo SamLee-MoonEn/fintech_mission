@@ -1,7 +1,7 @@
 import { useRecoilValue } from 'recoil'
 import { useQuery, useMutation, useQueryClient } from 'react-query'
 
-import { getInterestedStockInfoFromFirebase } from '../helper/firebaseAuth'
+import { getInterestedStockInfoFromFirebase } from '../API/firebaseAuth'
 import { userState } from '../store/userInfo'
 
 import StockModal from '../components/modals/StockModal'

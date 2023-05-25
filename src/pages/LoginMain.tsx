@@ -6,7 +6,7 @@ import {
   auth,
   signInWithEmailAndPassword,
   handleGoogleLogin,
-} from '../helper/firebaseAuth'
+} from '../API/firebaseAuth'
 import { userState } from '../store/userInfo'
 import googleIcon from '../assets/GoogleLogIn.png'
 

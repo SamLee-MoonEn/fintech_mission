@@ -3,7 +3,7 @@ import { useQuery, useMutation, useQueryClient } from 'react-query'
 import React, { useRef, useEffect } from 'react'
 
 import { userState } from '../store/userInfo'
-import { getShortcutDataFromFirebase } from '../helper/firebaseAuth'
+import { getShortcutDataFromFirebase } from '../API/firebaseAuth'
 import ShortCutCard from '../components/cards/ShortCutCard'
 import ShortCutAddModal from '../components/modals/ShortCutAddModal'
 

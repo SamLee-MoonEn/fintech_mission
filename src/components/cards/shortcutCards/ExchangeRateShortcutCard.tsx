@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 
-import { fetchExchageRateData } from '../../../helper/exchangeRateAPI'
+import { fetchExchageRateData } from '../../../API/exchangeRateAPI'
 
 interface ExchangeRateType {
   bkpr: string

@@ -3,7 +3,7 @@ import { useRecoilValue } from 'recoil'
 import { useQuery, useMutation, useQueryClient } from 'react-query'
 
 import { userState } from '../store/userInfo'
-import { createNewAccount, getAccountInfo } from '../helper/firebaseAuth'
+import { createNewAccount, getAccountInfo } from '../API/firebaseAuth'
 import { createRandomAccountNum } from '../helper/helper'
 import AccountCard from '../components/cards/AccountCard'
 import PasswordKeypad from '../components/PasswordKeypad'

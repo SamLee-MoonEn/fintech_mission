@@ -1,9 +1,9 @@
 import { useEffect, useState } from 'react'
 
-import { fetchStockData } from '../../../helper/stockAPI'
+import { fetchStockData } from '../../../API/stockAPI'
 import { useRecoilValue } from 'recoil'
 import { userState } from '../../../store/userInfo'
-import { getInterestedStockInfoFromFirebase } from '../../../helper/firebaseAuth'
+import { getInterestedStockInfoFromFirebase } from '../../../API/firebaseAuth'
 
 export default function StockShortcutCard({ data }: { data: string }) {
   const [stockInfo, setStockInfo] = useState<string>('0')

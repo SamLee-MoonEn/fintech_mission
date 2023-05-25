@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { useRecoilValue } from 'recoil'
 
-import { payment } from '../../../helper/firebaseAuth'
+import { payment } from '../../../API/firebaseAuth'
 import { userState } from '../../../store/userInfo'
 import QRPaymentCard from '../QRPaymentCard'
 

@@ -8,7 +8,7 @@ import {
 } from 'firebase/auth'
 import { getDatabase, ref, get, child, update } from 'firebase/database'
 
-import { dateFormatMaker, dateTimeFormatMaker } from './helper'
+import { dateFormatMaker, dateTimeFormatMaker } from '../helper/helper'
 
 const {
   VITE_FIREBASE_API_KEY,
