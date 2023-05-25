@@ -72,9 +72,11 @@ export default function MainPage() {
   }
 
   const currentItems = []
+  const itemsKeys: string[][] = []
   if (data) {
     for (let i = 0; i < Math.ceil(Object.values(data).length / 8); i++) {
       currentItems.push(Object.values(data).slice(i * 8, i * 8 + 8))
+      itemsKeys.push(Object.keys(data).slice(i * 8, i * 8 + 8))
     }
   }
 
@@ -99,6 +101,7 @@ export default function MainPage() {
                     <MainPageCards
                       currentItems={v}
                       updateShortcut={handleUpdateShorcut}
+                      deleteKey={itemsKeys[idx]}
                       key={idx}
                     />
                   )
@@ -107,6 +110,7 @@ export default function MainPage() {
               <MainPageCards
                 currentItems={[]}
                 updateShortcut={handleUpdateShorcut}
+                deleteKey={['']}
               />
             </>
           ) : (
@@ -116,6 +120,7 @@ export default function MainPage() {
                   <MainPageCards
                     currentItems={v}
                     updateShortcut={handleUpdateShorcut}
+                    deleteKey={itemsKeys[idx]}
                     key={idx}
                   />
                 )
@@ -132,9 +137,11 @@ export default function MainPage() {
 function MainPageCards({
   currentItems,
   updateShortcut,
+  deleteKey,
 }: {
   currentItems: { detailInfo: string; shortcutCardType: string }[]
   updateShortcut: () => Promise<void>
+  deleteKey: string[]
 }) {
   return (
     <>
