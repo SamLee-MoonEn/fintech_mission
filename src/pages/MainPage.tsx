@@ -2,12 +2,10 @@ import { useRecoilValue } from 'recoil'
 import { useQuery, useMutation, useQueryClient } from 'react-query'
 
 import { userState } from '../store/userInfo'
-import {
-  getAccountInfo,
-  getShortcutDataFromFirebase,
-} from '../helper/firebaseAuth'
+import { getShortcutDataFromFirebase } from '../helper/firebaseAuth'
 import ShortCutCard from '../components/cards/ShortCutCard'
 import ShortCutAddModal from '../components/modals/ShortCutAddModal'
+import { handleScroll } from '../helper/helper'
 
 interface ShortcutCardType {
   detailInfo: string
@@ -62,11 +60,31 @@ export default function MainPage() {
   }
 
   return (
-    <div className=" max-w-full md:max-w-[80%] ml-auto mr-auto flex justify-center items-center">
-      <div className=" carousel w-full max-w-[80%] mt-24">
-        {Object.values(data as ShortcutCardDataType).length % 8 === 0 ? (
-          <>
-            {currentItems.map(
+    <>
+      <div className=" max-w-full md:max-w-[80%] ml-auto mr-auto flex flex-col justify-center items-center">
+        <div
+          className=" carousel w-full max-w-[80%] mt-24 overflow-y-hidden"
+          onWheel={handleScroll}
+        >
+          {Object.values(data as ShortcutCardDataType).length % 8 === 0 ? (
+            <>
+              {currentItems.map(
+                (v: { detailInfo: string; shortcutCardType: string }[]) => {
+                  return (
+                    <MainPageCards
+                      currentItems={v}
+                      updateShortcut={handleUpdateShorcut}
+                    />
+                  )
+                },
+              )}
+              <MainPageCards
+                currentItems={[]}
+                updateShortcut={handleUpdateShorcut}
+              />
+            </>
+          ) : (
+            currentItems.map(
               (v: { detailInfo: string; shortcutCardType: string }[]) => {
                 return (
                   <MainPageCards
@@ -75,27 +93,12 @@ export default function MainPage() {
                   />
                 )
               },
-            )}
-            <MainPageCards
-              currentItems={[]}
-              updateShortcut={handleUpdateShorcut}
-            />
-          </>
-        ) : (
-          currentItems.map(
-            (v: { detailInfo: string; shortcutCardType: string }[]) => {
-              return (
-                <MainPageCards
-                  currentItems={v}
-                  updateShortcut={handleUpdateShorcut}
-                />
-              )
-            },
-          )
-        )}
+            )
+          )}
+        </div>
+        <ShortCutAddModal updateShortcutList={handleUpdateShorcut} />
       </div>
-      <ShortCutAddModal updateShortcutList={handleUpdateShorcut} />
-    </div>
+    </>
   )
 }
 
