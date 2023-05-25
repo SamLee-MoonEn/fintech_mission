@@ -1,7 +1,10 @@
 import { useState } from 'react'
 import { useRecoilValue } from 'recoil'
 
-import { payment } from '../../../API/firebaseAuth'
+import {
+  payment,
+  removeShortcutDataFromFirebase,
+} from '../../../API/firebaseAuth'
 import { userState } from '../../../store/userInfo'
 import QRPaymentCard from '../QRPaymentCard'
 
@@ -14,9 +17,11 @@ interface AccountTypes {
 export default function QRShortcutCard({
   data,
   updateAccount,
+  deleteKey,
 }: {
   data: AccountTypes
   updateAccount: () => void
+  deleteKey: string
 }) {
   const [amount, setAmount] = useState<number>(0)
   const userUid = useRecoilValue(userState)
@@ -44,11 +49,24 @@ export default function QRShortcutCard({
     setAmount(0)
   }
 
+  const handleremoveShortcutDataFromFirebase = (
+    e: React.MouseEvent<HTMLButtonElement>,
+  ) => {
+    removeShortcutDataFromFirebase(userUid, deleteKey)
+    updateAccount()
+  }
+
   return (
     <>
       <label htmlFor={`QR${data.accountNum}`} className=" cursor-pointer">
-        <div className="card border-slate-400 h-36">
+        <div className="qrcode relative card border-slate-400 h-36">
           <div className="card-body btn btn-active hover:bg-white hover:text-black hover:border-slate-400 hover:border-solid hover:border-1">
+            <button
+              onClick={handleremoveShortcutDataFromFirebase}
+              className=" btn btn-sm bg-transparent text-transparent text-black border-0 hover:bg-red-400 hover:text-white absolute top-3 right-3"
+            >
+              X
+            </button>
             <div className="card-title text-3xl">QR 결제</div>
             <div className=" card-actives text-sm">
               지출계좌번호 : {data.accountNum}

@@ -6,7 +6,13 @@ import { userState } from '../../../store/userInfo'
 import { getInterestedStockInfoFromFirebase } from '../../../API/firebaseAuth'
 import Loading from '../../Loading'
 
-export default function StockShortcutCard({ data }: { data: string }) {
+export default function StockShortcutCard({
+  data,
+  deleteKey,
+}: {
+  data: string
+  deleteKey: string
+}) {
   const [stockInfo, setStockInfo] = useState<string>('0')
   const [stockName, setStockName] = useState<string>('')
   const [displayLoading, setDisplayLoading] = useState(true)
@@ -23,10 +29,10 @@ export default function StockShortcutCard({ data }: { data: string }) {
   useEffect(() => {
     getStockData()
     handlegetInterestedStockInfoFromFirebase()
-    let isLoading = setTimeout(() => {
+    setTimeout(() => {
       setDisplayLoading(false)
     }, 2000)
-  }, [])
+  }, [displayLoading])
 
   return (
     <a

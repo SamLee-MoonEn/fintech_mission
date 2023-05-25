@@ -9,13 +9,19 @@ interface AccountTypes {
   transection: any
 }
 
-export default function ExpenseShortcutCard({ data }: { data: AccountTypes }) {
+export default function ExpenseShortcutCard({
+  data,
+  deleteKey,
+}: {
+  data: AccountTypes
+  deleteKey: string
+}) {
   const [todayExpenseInfo, setTodayExpenseInfo] = useState<string>()
   const today = dateFormatMaker(new Date())
 
   useEffect(() => {
     setTodayExpenseInfo(data.transection[today]?.[3]?.toLocaleString())
-  }, [])
+  }, [today])
 
   return (
     <a

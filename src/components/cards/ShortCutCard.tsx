@@ -6,16 +6,17 @@ import { userState } from '../../store/userInfo'
 import AccountShortcutCard from './shortcutCards/AccountShortcutCard'
 import ExpenseShortcutCard from './shortcutCards/ExpenseShortcutCard'
 import QRShortcutCard from './shortcutCards/QRShortcutCard'
-import { useEffect } from 'react'
 import StockShortcutCard from './shortcutCards/StockShortcutCard'
 import ExchangeRateShortcutCard from './shortcutCards/ExchangeRateShortcutCard'
 
 export default function ShortCutCard({
   detailInfo,
   type,
+  deleteKey,
 }: {
   detailInfo: string
   type: string
+  deleteKey: string
 }) {
   const userUid = useRecoilValue(userState)
   const queryClient = useQueryClient()
@@ -56,6 +57,7 @@ export default function ShortCutCard({
           case 'QR':
             return (
               <QRShortcutCard
+                deleteKey={deleteKey}
                 data={data[detailInfo]}
                 updateAccount={updateShortcut}
                 key={`${detailInfo}-${Math.floor(Math.random() * 1000)}`}
@@ -64,6 +66,7 @@ export default function ShortCutCard({
           case 'Account':
             return (
               <AccountShortcutCard
+                deleteKey={deleteKey}
                 data={data[detailInfo]}
                 key={`${detailInfo}-${Math.floor(Math.random() * 1000)}`}
               />
@@ -71,6 +74,7 @@ export default function ShortCutCard({
           case 'Expense':
             return (
               <ExpenseShortcutCard
+                deleteKey={deleteKey}
                 data={data[detailInfo]}
                 key={`${detailInfo}-${Math.floor(Math.random() * 1000)}`}
               />
@@ -78,6 +82,7 @@ export default function ShortCutCard({
           case 'Stock':
             return (
               <StockShortcutCard
+                deleteKey={deleteKey}
                 data={detailInfo}
                 key={`${detailInfo}-${Math.floor(Math.random() * 1000)}`}
               />
@@ -85,6 +90,7 @@ export default function ShortCutCard({
           case 'Currency':
             return (
               <ExchangeRateShortcutCard
+                deleteKey={deleteKey}
                 data={detailInfo}
                 key={`${detailInfo}-${Math.floor(Math.random() * 1000)}`}
               />

@@ -16,7 +16,13 @@ interface ExchangeRateType {
   yy_efee_r: string
 }
 
-export default function ExchangeRateShortcutCard({ data }: { data: string }) {
+export default function ExchangeRateShortcutCard({
+  data,
+  deleteKey,
+}: {
+  data: string
+  deleteKey: string
+}) {
   const [exchangeRateData, setExchangeRateData] = useState<ExchangeRateType>()
 
   const getExchangeRateData = async () => {
@@ -26,7 +32,7 @@ export default function ExchangeRateShortcutCard({ data }: { data: string }) {
   }
   useEffect(() => {
     getExchangeRateData()
-  }, [])
+  }, [deleteKey])
   return (
     <a
       href="/exchangerateinfo"

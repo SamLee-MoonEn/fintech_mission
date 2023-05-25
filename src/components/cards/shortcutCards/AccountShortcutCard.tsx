@@ -6,9 +6,14 @@ interface AccountTypes {
   password: string
 }
 
-export default function AccountShortcutCard({ data }: { data: AccountTypes }) {
+export default function AccountShortcutCard({
+  data,
+  deleteKey,
+}: {
+  data: AccountTypes
+  deleteKey: string
+}) {
   const [accountInfo, setAccountInfo] = useState<AccountTypes>(data)
-
   return (
     <a
       href="/accountinfo"
