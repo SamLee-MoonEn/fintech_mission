@@ -69,11 +69,15 @@ export default function MainPage() {
           {Object.values(data as ShortcutCardDataType).length % 8 === 0 ? (
             <>
               {currentItems.map(
-                (v: { detailInfo: string; shortcutCardType: string }[]) => {
+                (
+                  v: { detailInfo: string; shortcutCardType: string }[],
+                  idx,
+                ) => {
                   return (
                     <MainPageCards
                       currentItems={v}
                       updateShortcut={handleUpdateShorcut}
+                      key={idx}
                     />
                   )
                 },
@@ -85,11 +89,12 @@ export default function MainPage() {
             </>
           ) : (
             currentItems.map(
-              (v: { detailInfo: string; shortcutCardType: string }[]) => {
+              (v: { detailInfo: string; shortcutCardType: string }[], idx) => {
                 return (
                   <MainPageCards
                     currentItems={v}
                     updateShortcut={handleUpdateShorcut}
+                    key={idx}
                   />
                 )
               },
@@ -112,12 +117,13 @@ function MainPageCards({
   return (
     <>
       <div className=" carousel-item w-full grid grid-cols-2 h-full items-start gap-4 ml-4 mr-4">
-        {currentItems.map((v) => {
+        {currentItems.map((v, idx) => {
           return (
             <ShortCutCard
               detailInfo={v.detailInfo}
               type={v.shortcutCardType}
               updateShortCut={updateShortcut}
+              key={idx}
             />
           )
         })}
