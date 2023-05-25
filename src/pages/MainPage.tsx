@@ -152,15 +152,16 @@ function MainPageCards({
               detailInfo={v.detailInfo}
               type={v.shortcutCardType}
               key={idx}
+              deleteKey={deleteKey[idx]}
             />
           )
         })}
         {currentItems.length === 8 ? (
           <></>
         ) : (
-          <label htmlFor="shortCutAdd" className="card btn h-36 bg-neutral">
+          <label htmlFor="shortCutAdd" className="btn h-36 bg-neutral">
             <div className="card-body items-center justify-center">
-              <div className="card-title">카드 추가</div>
+              <div className="card-title text-2xl">카드 추가</div>
               <div className="card-title">+</div>
             </div>
           </label>
