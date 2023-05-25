@@ -7,6 +7,7 @@ import AccountShortcutCard from './shortcutCards/AccountShortcutCard'
 import ExpenseShortcutCard from './shortcutCards/ExpenseShortcutCard'
 import QRShortcutCard from './shortcutCards/QRShortcutCard'
 import { useEffect } from 'react'
+import StockShortcutCard from './shortcutCards/StockShortcutCard'
 
 export default function ShortCutCard({
   detailInfo,
@@ -70,6 +71,13 @@ export default function ShortCutCard({
             return (
               <ExpenseShortcutCard
                 data={data[detailInfo]}
+                key={`${detailInfo}-${Math.floor(Math.random() * 1000)}`}
+              />
+            )
+          case 'Stock':
+            return (
+              <StockShortcutCard
+                data={detailInfo}
                 key={`${detailInfo}-${Math.floor(Math.random() * 1000)}`}
               />
             )
