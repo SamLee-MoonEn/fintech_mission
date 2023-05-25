@@ -12,7 +12,7 @@ export default function AccountShortcutCard({ data }: { data: AccountTypes }) {
   return (
     <a
       href="/accountinfo"
-      className="btn btn-outline border-slate-400 border-solid border-2 h-36"
+      className="btn bg-rose-500 hover:bg-white hover:text-black border-slate-400 border-solid border-2 h-36"
     >
       <div className="block w-full">
         <div className="mb-4 text-left text-lg">

@@ -30,7 +30,7 @@ export default function ExchangeRateShortcutCard({ data }: { data: string }) {
   return (
     <a
       href="/exchangerateinfo"
-      className="btn btn-outline border-slate-400 border-solid border-2 h-36"
+      className="btn bg-sky-600 hover:bg-white hover:text-black border-slate-400 border-solid border-2 h-36"
     >
       <div className="block w-full">
         <div className="mb-4 text-left text-lg">{exchangeRateData?.cur_nm}</div>
