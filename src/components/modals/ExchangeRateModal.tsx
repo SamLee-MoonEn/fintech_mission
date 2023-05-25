@@ -12,13 +12,18 @@ export default function ExchangeRateModal({
 }) {
   const userUid = useRecoilValue(userState)
 
-  const [exchangeRateValue, setExchangeRateValue] = useState('')
+  const [exchangeRateValue, setExchangeRateValue] = useState<string[]>([])
 
   const handleSelectValue = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    setExchangeRateValue(e.target.value)
+    setExchangeRateValue(e.target.value.split(','))
+    console.log(exchangeRateValue)
   }
   const setInterestedExchangeRate = () => {
-    setInterestedExchangeRateToFirebase(userUid, exchangeRateValue)
+    setInterestedExchangeRateToFirebase(
+      userUid,
+      exchangeRateValue[0],
+      exchangeRateValue[1],
+    )
     updateExchangeRate()
   }
   return (
@@ -45,7 +50,7 @@ export default function ExchangeRateModal({
                 {EXCHANGE_RATE_CODE.map((v) => (
                   <option
                     key={v['cur_unit']}
-                    value={v['cur_unit']}
+                    value={[v['cur_unit'], v['cur_nm']]}
                   >{`${v['cur_unit']} ${v['cur_nm']}`}</option>
                 ))}
               </select>
