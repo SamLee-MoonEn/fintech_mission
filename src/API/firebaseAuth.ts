@@ -363,6 +363,20 @@ const getShortcutDataFromFirebase = async (userUid: string) => {
   }
 }
 
+// shortcut 카드 삭제
+const removeShortcutDataFromFirebase = async (
+  userUid: string,
+  code: string,
+) => {
+  try {
+    const updates: any = {}
+    updates[`${userUid}/Shortcut/` + code] = null
+    update(ref(firebasedb), updates)
+  } catch (e) {
+    console.error(e)
+  }
+}
+
 // Google 로그인
 const handleGoogleLogin = async () => {
   const provider = new GoogleAuthProvider()
@@ -393,4 +407,5 @@ export {
   removeInterestedExchangeRateFromFirebase,
   setShortcutDataToFirebase,
   getShortcutDataFromFirebase,
+  removeShortcutDataFromFirebase,
 }
