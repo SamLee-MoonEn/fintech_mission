@@ -45,7 +45,7 @@ const setStockDataToList = (stockData: any) => {
 
 export const fetchTickerSymbolSearcher = async (searchValue: string) => {
   try {
-    const response = await axios.get('src/helper/KoreaStockList.json')
+    const response = await axios.get('src/API/KoreaStockList.json')
     if (searchValue === '') {
       return []
     }
