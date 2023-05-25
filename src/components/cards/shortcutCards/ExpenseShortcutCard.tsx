@@ -20,7 +20,7 @@ export default function ExpenseShortcutCard({ data }: { data: AccountTypes }) {
   return (
     <a
       href="/expenseInfo"
-      className="btn bg-yellow-500 hover:bg-white hover:text-black border-slate-400 border-solid border-2 h-36"
+      className="btn bg-yellow-500 hover:bg-white hover:text-black hover:border-slate-400 hover:border-solid hover:border-1 h-36"
     >
       <div className="block w-full">
         <div className="mb-4 text-left text-lg">

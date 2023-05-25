@@ -48,7 +48,7 @@ export default function QRShortcutCard({
     <>
       <label htmlFor={`QR${data.accountNum}`} className=" cursor-pointer">
         <div className="card border-slate-400 h-36">
-          <div className="card-body btn btn-active hover:bg-white hover:text-black border-slate-400 border-solid border-2">
+          <div className="card-body btn btn-active hover:bg-white hover:text-black hover:border-slate-400 hover:border-solid hover:border-1">
             <div className="card-title text-3xl">QR 결제</div>
             <div className=" card-actives text-sm">
               지출계좌번호 : {data.accountNum}
