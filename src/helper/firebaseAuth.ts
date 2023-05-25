@@ -286,9 +286,11 @@ const removeInterestedStockInfoFromFirebase = async (
 const setInterestedExchangeRateToFirebase = (
   userUid: string,
   curCode: string,
+  curName: string,
 ) => {
   const exchangeRateData = {
     환율코드: curCode,
+    환율명: curName,
   }
   try {
     const updates: any = {}
