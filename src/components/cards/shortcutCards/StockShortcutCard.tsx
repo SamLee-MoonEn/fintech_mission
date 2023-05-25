@@ -27,12 +27,14 @@ export default function StockShortcutCard({
     setStockInfo(result[0])
   }
   useEffect(() => {
-    getStockData()
+    if (displayLoading) {
+      getStockData()
+    }
     handlegetInterestedStockInfoFromFirebase()
-    setTimeout(() => {
+    if (!isNaN(Number(stockInfo[2]))) {
       setDisplayLoading(false)
-    }, 2000)
-  }, [displayLoading])
+    }
+  }, [stockInfo])
 
   return (
     <a
