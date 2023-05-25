@@ -31,6 +31,7 @@ export default function MainPage() {
         userUid,
       ) as Promise<ShortcutCardDataType>
     },
+    { notifyOnChangeProps: ['data'] },
   )
   // useMudataion을 이용해서 데이터 업데이트 시 서버에서 데이터 받아오기
   const updateShortcutDataMutation = useMutation(getShortcutDataFromFirebase, {
