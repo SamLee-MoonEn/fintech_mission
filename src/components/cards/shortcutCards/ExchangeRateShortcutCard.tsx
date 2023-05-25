@@ -29,7 +29,7 @@ export default function ExchangeRateShortcutCard({ data }: { data: string }) {
   }, [])
   return (
     <a
-      href="/stockinfo"
+      href="/exchangerateinfo"
       className="btn btn-outline border-slate-400 border-solid border-2 h-36"
     >
       <div className="block w-full">
