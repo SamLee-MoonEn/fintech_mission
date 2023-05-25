@@ -39,9 +39,9 @@ export default function ExpenseShortcutCard({
           계좌 번호 {data.accountNum}
         </div>
         <div className="text-right text-2xl">
-          {todayExpenseInfo
-            ? `지출 ${todayExpenseInfo}`
-            : '오늘의 지출정보가 없습니다.'}
+          {todayExpenseInfo == '0' || todayExpenseInfo == undefined
+            ? '오늘의 지출정보가 없습니다.'
+            : `지출 ${todayExpenseInfo}`}
         </div>
       </div>
     </a>
