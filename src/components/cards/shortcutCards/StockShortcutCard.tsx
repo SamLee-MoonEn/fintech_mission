@@ -4,10 +4,12 @@ import { fetchStockData } from '../../../API/stockAPI'
 import { useRecoilValue } from 'recoil'
 import { userState } from '../../../store/userInfo'
 import { getInterestedStockInfoFromFirebase } from '../../../API/firebaseAuth'
+import Loading from '../../Loading'
 
 export default function StockShortcutCard({ data }: { data: string }) {
   const [stockInfo, setStockInfo] = useState<string>('0')
   const [stockName, setStockName] = useState<string>('')
+  const [displayLoading, setDisplayLoading] = useState(true)
   const userUid = useRecoilValue(userState)
 
   const handlegetInterestedStockInfoFromFirebase = async () => {
@@ -21,6 +23,9 @@ export default function StockShortcutCard({ data }: { data: string }) {
   useEffect(() => {
     getStockData()
     handlegetInterestedStockInfoFromFirebase()
+    let isLoading = setTimeout(() => {
+      setDisplayLoading(false)
+    }, 2000)
   }, [])
 
   return (
@@ -29,13 +34,19 @@ export default function StockShortcutCard({ data }: { data: string }) {
       className="btn btn-outline border-slate-400 border-solid border-2 h-36"
     >
       <div className="block w-full">
-        <div className="mb-4 text-left text-lg">{stockName}</div>
-        <div className="flex justify-end">
-          <div className="text-right text-2xl">전일 종가</div>
-          <div className="text-right text-2xl ml-4">
-            {Number(stockInfo[2]).toLocaleString()} 원
-          </div>
-        </div>
+        {displayLoading ? (
+          <Loading />
+        ) : (
+          <>
+            <div className="mb-4 text-left text-lg">{stockName}</div>
+            <div className="flex justify-end">
+              <div className="text-right text-2xl">전일 종가</div>
+              <div className="text-right text-2xl ml-4">
+                {Number(stockInfo[2]).toLocaleString()} 원
+              </div>
+            </div>
+          </>
+        )}
       </div>
     </a>
   )
