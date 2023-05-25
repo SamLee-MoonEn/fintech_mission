@@ -24,7 +24,7 @@ export default function ShortCutCard({
     'accountDataforShortcut',
     () => {
       return getAccountInfo(userUid)
-    },
+    },{notifyOnChangeProps:['data']}
   )
 
   // useMudataion을 이용해서 데이터 업데이트 시 서버에서 데이터 받아오기
