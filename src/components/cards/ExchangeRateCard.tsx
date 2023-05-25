@@ -20,7 +20,7 @@ interface Props {
 }
 
 const emptyCard = (
-  <div className="card w-full  bg-neutral text-white mb-4">
+  <div className="card w-full  bg-slate-500 text-white mb-4">
     <div className="card-body">
       <div className="flex items-center">
         <h2 className=" card-title">환율 정보</h2>
@@ -53,15 +53,12 @@ export default function ExchangeRateCard({
     removeInterestedExchangeRateFromFirebase(userUid, exchangeCode)
     updateExchangeRate()
   }
-
   useEffect(() => {
     getExchangeRateData()
   }, [])
-
   if (!exchangeRateData) {
     return emptyCard
   }
-
   return (
     <div className="card w-full bg-slate-500 text-white mb-4">
       <div className="card-body">

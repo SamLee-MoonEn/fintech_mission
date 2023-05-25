@@ -1,5 +1,4 @@
 import { useEffect, useState } from 'react'
-import { useRecoilValue } from 'recoil'
 
 import { dateFormatMaker } from '../../../helper/helper'
 

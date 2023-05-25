@@ -1,8 +1,4 @@
-import { useEffect, useState } from 'react'
-import { useRecoilValue } from 'recoil'
-
-import { getAccountInfo } from '../../../helper/firebaseAuth'
-import { userState } from '../../../store/userInfo'
+import { useState } from 'react'
 
 interface AccountTypes {
   accountNum: string
