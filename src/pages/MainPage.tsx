@@ -6,7 +6,6 @@ import { userState } from '../store/userInfo'
 import { getShortcutDataFromFirebase } from '../helper/firebaseAuth'
 import ShortCutCard from '../components/cards/ShortCutCard'
 import ShortCutAddModal from '../components/modals/ShortCutAddModal'
-import { handleScroll } from '../helper/helper'
 
 interface ShortcutCardType {
   detailInfo: string
@@ -19,6 +18,8 @@ interface ShortcutCardDataType {
 
 export default function MainPage() {
   const userUid = useRecoilValue(userState)
+  const $container = useRef<HTMLDivElement>(null)
+  const $carousel = useRef<HTMLDivElement>(null)
 
   const queryClient = useQueryClient()
 
@@ -42,6 +43,23 @@ export default function MainPage() {
     updateShortcutDataMutation.mutate(userUid)
   }
 
+  useEffect(() => {
+    const container = $container.current
+    const carousel = $carousel.current
+    const handleScroll = (e: WheelEvent) => {
+      e.preventDefault()
+      carousel?.scrollBy({
+        left: e.deltaY,
+        behavior: 'smooth',
+      })
+    }
+
+    container?.addEventListener('wheel', handleScroll)
+    return () => {
+      container?.removeEventListener('wheel', handleScroll)
+    }
+  }, [isLoading, isError, data])
+
   // useMudataion을 이용해서 데이터 업데이트 시 서버에서 데이터 받아오기
   if (isLoading) {
     return <div>...Loading</div>
@@ -58,27 +76,6 @@ export default function MainPage() {
       currentItems.push(Object.values(data).slice(i * 8, i * 8 + 8))
     }
   }
-
-  const $container = useRef<HTMLDivElement>(null)
-  const $carousel = useRef<HTMLDivElement>(null)
-
-  useEffect(() => {
-    const container = $container.current
-    const carousel = $carousel.current
-
-    const handleScroll = (e: WheelEvent) => {
-      e.preventDefault()
-      carousel?.scrollBy({
-        left: e.deltaY,
-        behavior: 'smooth',
-      })
-    }
-    container?.addEventListener('wheel', handleScroll)
-
-    return () => {
-      container?.removeEventListener('wheel', handleScroll)
-    }
-  }, [])
 
   return (
     <>
@@ -146,7 +143,6 @@ function MainPageCards({
             <ShortCutCard
               detailInfo={v.detailInfo}
               type={v.shortcutCardType}
-              updateShortCut={updateShortcut}
               key={idx}
             />
           )
