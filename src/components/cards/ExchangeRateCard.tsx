@@ -5,7 +5,7 @@ import { fetchExchageRateData } from '../../helper/exchangeRateAPI'
 import { removeInterestedExchangeRateFromFirebase } from '../../helper/firebaseAuth'
 import { userState } from '../../store/userInfo'
 
-interface Props {
+interface ExchangeRateType {
   bkpr: string
   cur_nm: string
   cur_unit: string
@@ -41,10 +41,10 @@ export default function ExchangeRateCard({
   updateExchangeRate: () => void
 }) {
   const userUid = useRecoilValue(userState)
-  const [exchangeRateData, setExchangeRateData] = useState<Props>()
+  const [exchangeRateData, setExchangeRateData] = useState<ExchangeRateType>()
 
   const getExchangeRateData = async () => {
-    const result: Props[] = await fetchExchageRateData()
+    const result: ExchangeRateType[] = await fetchExchageRateData()
     const filteredResult = result.filter((v) => v['cur_unit'] === exchangeCode)
     setExchangeRateData(filteredResult[0])
   }
