@@ -62,7 +62,7 @@ export default function QRShortcutCard({
             </button>
             <div className="card-title text-3xl">QR 결제</div>
             <div className=" card-actives text-sm">
-              지출계좌번호 : {data.accountNum}
+              결제계좌번호 : {data.accountNum}
             </div>
           </div>
         </div>

@@ -180,6 +180,10 @@ const payment = async (userUid: string, accountNum: string, amount: number) => {
       child(ref(firebasedb), `${userUid}/Account/${accountNum}/balance`),
     )
     const balance = data.val()
+    if (balance < amount) {
+      alert('잔액이 부족합니다.')
+      return
+    }
     // 입금 시에 입력하는 키 값 날짜 형식으로 생성.(yyyy-MM-dd)
     const newTransectionKey = dateFormatMaker(new Date())
     // 기존에 키 값 가져오기.

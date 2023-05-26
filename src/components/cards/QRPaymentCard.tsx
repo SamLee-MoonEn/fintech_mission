@@ -1,4 +1,7 @@
+import { useState } from 'react'
+
 import { QRCodeSVG } from 'qrcode.react'
+import TransferStateModal from '../modals/TransferStateModal'
 
 export default function QRPaymentCard({
   accountNum,

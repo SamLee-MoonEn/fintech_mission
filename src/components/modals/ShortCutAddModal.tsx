@@ -280,7 +280,7 @@ function AddQRhortcutCard({
       <input type="checkbox" id="addQRShortcutCard" className="modal-toggle" />
       <div className="modal">
         <div className="modal-box flex flex-col items-center">
-          <h1 className="font-bold text-3xl w-full text-center">지출 카드</h1>
+          <h1 className="font-bold text-3xl w-full text-center">결제 카드</h1>
           <label
             htmlFor="addQRShortcutCard"
             className="btn btn-sm btn-circle absolute right-3 top-3"
