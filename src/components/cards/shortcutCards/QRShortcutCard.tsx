@@ -2,11 +2,13 @@ import { useState } from 'react'
 import { useRecoilValue } from 'recoil'
 
 import {
+  getAccountInfo,
   payment,
   removeShortcutDataFromFirebase,
 } from '../../../API/firebaseAuth'
 import { userState } from '../../../store/userInfo'
 import QRPaymentCard from '../QRPaymentCard'
+import { useMutation, useQueryClient } from 'react-query'
 
 interface AccountTypes {
   accountNum: string
@@ -16,15 +18,26 @@ interface AccountTypes {
 
 export default function QRShortcutCard({
   data,
-  updateAccount,
   removeCard,
 }: {
   data: AccountTypes
-  updateAccount: () => void
   removeCard: (e: React.MouseEvent<HTMLButtonElement>) => void
 }) {
   const [amount, setAmount] = useState<number>(0)
   const userUid = useRecoilValue(userState)
+  const queryClient = useQueryClient()
+
+  const updateAccountMutation = useMutation(getAccountInfo, {
+    onSuccess: () => {
+      queryClient.invalidateQueries('accountDataforShortcut')
+    },
+  })
+
+  const updateShortcut = async () => {
+    setTimeout(() => {
+      updateAccountMutation.mutate(userUid)
+    }, 1000)
+  }
 
   const handleAmount = (e: React.ChangeEvent<HTMLInputElement>) => {
     const tempAmount = Number(e.target.value)
@@ -39,7 +52,7 @@ export default function QRShortcutCard({
   const handlePayment = () => {
     if (amount !== undefined) {
       payment(userUid, data.accountNum, amount)
-      updateAccount()
+      updateShortcut()
     } else {
       alert('지불 금액을 입력해주세요.')
     }
@@ -51,12 +64,15 @@ export default function QRShortcutCard({
 
   return (
     <>
-      <label htmlFor={`QR${data.accountNum}`} className=" cursor-pointer">
+      <label
+        htmlFor={`QR${data.accountNum}`}
+        className=" cursor-pointer  transition-none"
+      >
         <div className="qrcode relative card border-slate-400 h-36">
-          <div className="card-body btn btn-active hover:bg-white hover:text-black hover:border-slate-400 hover:border-solid hover:border-1">
+          <div className="card-body btn btn-active hover:bg-white hover:text-black hover:border-slate-400 hover:border-solid hover:border-1 transition-none">
             <button
               onClick={removeCard}
-              className=" btn btn-sm bg-transparent text-transparent text-black border-0 hover:bg-red-400 hover:text-white absolute top-3 right-3"
+              className=" btn btn-sm bg-transparent text-transparent text-black border-0 hover:bg-red-400 hover:text-white absolute top-3 right-3  transition-none"
             >
               X
             </button>

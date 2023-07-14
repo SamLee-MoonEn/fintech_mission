@@ -21,8 +21,6 @@ export default function MainPage() {
   const $container = useRef<HTMLDivElement>(null)
   const $carousel = useRef<HTMLDivElement>(null)
 
-  const queryClient = useQueryClient()
-
   //useQuery 사용
   const { isLoading, isError, error, data } = useQuery<ShortcutCardDataType>(
     'shortcutCardList',
@@ -33,16 +31,6 @@ export default function MainPage() {
     },
     { notifyOnChangeProps: ['data'] },
   )
-  // useMudataion을 이용해서 데이터 업데이트 시 서버에서 데이터 받아오기
-  const updateShortcutDataMutation = useMutation(getShortcutDataFromFirebase, {
-    onSuccess: () => {
-      queryClient.invalidateQueries('shortcutCardList')
-    },
-  })
-
-  const handleUpdateShorcut = async () => {
-    updateShortcutDataMutation.mutate(userUid)
-  }
 
   useEffect(() => {
     const container = $container.current
@@ -100,18 +88,13 @@ export default function MainPage() {
                   return (
                     <MainPageCards
                       currentItems={v}
-                      updateShortcut={handleUpdateShorcut}
                       deleteKey={itemsKeys[idx]}
                       key={idx}
                     />
                   )
                 },
               )}
-              <MainPageCards
-                currentItems={[]}
-                updateShortcut={handleUpdateShorcut}
-                deleteKey={['']}
-              />
+              <MainPageCards currentItems={[]} deleteKey={['']} />
             </>
           ) : (
             currentItems.map(
@@ -119,7 +102,6 @@ export default function MainPage() {
                 return (
                   <MainPageCards
                     currentItems={v}
-                    updateShortcut={handleUpdateShorcut}
                     deleteKey={itemsKeys[idx]}
                     key={idx}
                   />
@@ -128,7 +110,7 @@ export default function MainPage() {
             )
           )}
         </div>
-        <ShortCutAddModal updateShortcutList={handleUpdateShorcut} />
+        <ShortCutAddModal />
       </div>
     </>
   )
@@ -136,11 +118,9 @@ export default function MainPage() {
 
 function MainPageCards({
   currentItems,
-  updateShortcut,
   deleteKey,
 }: {
   currentItems: { detailInfo: string; shortcutCardType: string }[]
-  updateShortcut: () => Promise<void>
   deleteKey: string[]
 }) {
   return (
@@ -153,7 +133,6 @@ function MainPageCards({
               type={v.shortcutCardType}
               key={idx}
               deleteKey={deleteKey[idx]}
-              updateShortcutCard={updateShortcut}
             />
           )
         })}

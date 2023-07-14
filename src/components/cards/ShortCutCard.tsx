@@ -16,15 +16,13 @@ export default function ShortCutCard({
   detailInfo,
   type,
   deleteKey,
-  updateShortcutCard,
 }: {
   detailInfo: string
   type: string
   deleteKey: string
-  updateShortcutCard: () => Promise<void>
 }) {
-  const userUid = useRecoilValue(userState)
   const queryClient = useQueryClient()
+  const userUid = useRecoilValue(userState)
 
   const { isLoading, isError, error, data }: any = useQuery(
     'accountDataforShortcut',
@@ -33,13 +31,18 @@ export default function ShortCutCard({
     },
     { notifyOnChangeProps: ['data'] },
   )
-
-  // useMudataion을 이용해서 데이터 업데이트 시 서버에서 데이터 받아오기
-  const updateAccountMutation = useMutation(getAccountInfo, {
+  const updateMainCard = useMutation(removeShortcutDataFromFirebase, {
     onSuccess: () => {
-      queryClient.invalidateQueries('accountDataforShortcut')
+      queryClient.invalidateQueries('shortcutCardList')
     },
   })
+
+  const handleremoveShortcutDataFromFirebase = (
+    e: React.MouseEvent<HTMLButtonElement>,
+  ) => {
+    e.preventDefault()
+    updateMainCard.mutate({ userUid, code: deleteKey })
+  }
 
   if (isLoading) {
     return <div>...Loading</div>
@@ -48,23 +51,6 @@ export default function ShortCutCard({
   if (isError) {
     console.error(error)
     return <div>문제발생</div>
-  }
-
-  const updateShortcut = async () => {
-    setTimeout(() => {
-      updateAccountMutation.mutate(userUid)
-    }, 1000)
-  }
-
-  const handleremoveShortcutDataFromFirebase = (
-    e: React.MouseEvent<HTMLButtonElement>,
-  ) => {
-    e.preventDefault()
-    removeShortcutDataFromFirebase(userUid, deleteKey)
-    updateShortcut()
-    setTimeout(() => {
-      updateShortcutCard()
-    }, 500)
   }
 
   return (
@@ -76,7 +62,6 @@ export default function ShortCutCard({
               <QRShortcutCard
                 removeCard={handleremoveShortcutDataFromFirebase}
                 data={data[detailInfo]}
-                updateAccount={updateShortcut}
                 key={`${detailInfo}-${Math.floor(Math.random() * 1000)}`}
               />
             )

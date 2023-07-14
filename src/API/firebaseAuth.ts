@@ -333,19 +333,19 @@ const removeInterestedExchangeRateFromFirebase = async (
   }
 }
 // Shortcut Card 정보 DB에 저장
-const setShortcutDataToFirebase = (
-  userUid: string,
-  shortcutCardType: string,
-  detailInfo: string,
-) => {
+const setShortcutDataToFirebase = async (data: {
+  userUid: string
+  shortcutCardType: string
+  detailInfo: string
+}) => {
   try {
     const newShortcutKey = dateTimeFormatMaker(new Date())
     const shortcutInfo = {
-      shortcutCardType: shortcutCardType,
-      detailInfo: detailInfo,
+      shortcutCardType: data.shortcutCardType,
+      detailInfo: data.detailInfo,
     }
     const updates: any = {}
-    updates[`${userUid}/Shortcut/` + newShortcutKey] = shortcutInfo
+    updates[`${data.userUid}/Shortcut/` + newShortcutKey] = shortcutInfo
     update(ref(firebasedb), updates)
   } catch (e) {
     console.error(e)
@@ -368,13 +368,13 @@ const getShortcutDataFromFirebase = async (userUid: string) => {
 }
 
 // shortcut 카드 삭제
-const removeShortcutDataFromFirebase = async (
-  userUid: string,
-  code: string,
-) => {
+const removeShortcutDataFromFirebase = async (info: {
+  userUid: string
+  code: string
+}) => {
   try {
     const updates: any = {}
-    updates[`${userUid}/Shortcut/` + code] = null
+    updates[`${info.userUid}/Shortcut/` + info.code] = null
     update(ref(firebasedb), updates)
   } catch (e) {
     console.error(e)

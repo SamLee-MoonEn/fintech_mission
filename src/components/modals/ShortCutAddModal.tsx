@@ -8,12 +8,9 @@ import {
   getInterestedExchangeRateFromFirebase,
 } from '../../API/firebaseAuth'
 import { useEffect, useState } from 'react'
+import { useMutation, useQueryClient } from 'react-query'
 
-export default function ShortCutAddModal({
-  updateShortcutList,
-}: {
-  updateShortcutList: () => Promise<void>
-}) {
+export default function ShortCutAddModal() {
   const userUid = useRecoilValue(userState)
 
   return (
@@ -47,26 +44,11 @@ export default function ShortCutAddModal({
           </div>
         </label>
       </div>
-      <AddAccountShortcutCard
-        userUid={userUid}
-        updateShortcutList={updateShortcutList}
-      />
-      <AddExpenseShortcutCard
-        userUid={userUid}
-        updateShortcutList={updateShortcutList}
-      />
-      <AddQRhortcutCard
-        userUid={userUid}
-        updateShortcutList={updateShortcutList}
-      />
-      <AddStockShortcutCard
-        userUid={userUid}
-        updateShortcutList={updateShortcutList}
-      />
-      <AddExchangeRateShortcutCard
-        userUid={userUid}
-        updateShortcutList={updateShortcutList}
-      />
+      <AddAccountShortcutCard userUid={userUid} />
+      <AddExpenseShortcutCard userUid={userUid} />
+      <AddQRhortcutCard userUid={userUid} />
+      <AddStockShortcutCard userUid={userUid} />
+      <AddExchangeRateShortcutCard userUid={userUid} />
     </>
   )
 }
@@ -77,15 +59,16 @@ interface AccountTypes {
   password: string
 }
 
-function AddAccountShortcutCard({
-  userUid,
-  updateShortcutList,
-}: {
-  userUid: string
-  updateShortcutList: () => Promise<void>
-}) {
+function AddAccountShortcutCard({ userUid }: { userUid: string }) {
   const [accountInfo, setAccountInfo] = useState<AccountTypes[]>()
   const [selectedAccountNum, setSelectedAccountNum] = useState<string>()
+  const queryClient = useQueryClient()
+
+  const updateMainCard = useMutation(setShortcutDataToFirebase, {
+    onSuccess: () => {
+      queryClient.invalidateQueries('shortcutCardList')
+    },
+  })
 
   const handleGetAccountInfo = async () => {
     const temp = await getAccountInfo(userUid)
@@ -101,8 +84,11 @@ function AddAccountShortcutCard({
       alert('계좌번호를 선택해주세요.')
       return
     }
-    setShortcutDataToFirebase(userUid, 'Account', selectedAccountNum)
-    updateShortcutList()
+    updateMainCard.mutate({
+      userUid,
+      shortcutCardType: 'Account',
+      detailInfo: selectedAccountNum,
+    })
   }
   useEffect(() => {
     handleGetAccountInfo()
@@ -159,16 +145,16 @@ function AddAccountShortcutCard({
   )
 }
 
-function AddExpenseShortcutCard({
-  userUid,
-  updateShortcutList,
-}: {
-  userUid: string
-  updateShortcutList: () => Promise<void>
-}) {
+function AddExpenseShortcutCard({ userUid }: { userUid: string }) {
   const [accountInfo, setAccountInfo] = useState<AccountTypes[]>()
   const [selectedAccountNum, setSelectedAccountNum] = useState<string>()
+  const queryClient = useQueryClient()
 
+  const updateMainCard = useMutation(setShortcutDataToFirebase, {
+    onSuccess: () => {
+      queryClient.invalidateQueries('shortcutCardList')
+    },
+  })
   const handleGetAccountInfo = async () => {
     const temp = await getAccountInfo(userUid)
     setAccountInfo(Object.values(temp))
@@ -184,8 +170,11 @@ function AddExpenseShortcutCard({
       alert('계좌번호를 선택해주세요.')
       return
     }
-    setShortcutDataToFirebase(userUid, 'Expense', selectedAccountNum)
-    updateShortcutList()
+    updateMainCard.mutate({
+      userUid,
+      shortcutCardType: 'Expense',
+      detailInfo: selectedAccountNum,
+    })
   }
 
   useEffect(() => {
@@ -243,16 +232,16 @@ function AddExpenseShortcutCard({
   )
 }
 
-function AddQRhortcutCard({
-  userUid,
-  updateShortcutList,
-}: {
-  userUid: string
-  updateShortcutList: () => Promise<void>
-}) {
+function AddQRhortcutCard({ userUid }: { userUid: string }) {
   const [accountInfo, setAccountInfo] = useState<AccountTypes[]>()
   const [selectedAccountNum, setSelectedAccountNum] = useState<string>()
+  const queryClient = useQueryClient()
 
+  const updateMainCard = useMutation(setShortcutDataToFirebase, {
+    onSuccess: () => {
+      queryClient.invalidateQueries('shortcutCardList')
+    },
+  })
   const handleGetAccountInfo = async () => {
     const temp = await getAccountInfo(userUid)
     setAccountInfo(Object.values(temp))
@@ -268,8 +257,11 @@ function AddQRhortcutCard({
       alert('계좌번호를 선택해주세요.')
       return
     }
-    setShortcutDataToFirebase(userUid, 'QR', selectedAccountNum)
-    updateShortcutList()
+    updateMainCard.mutate({
+      userUid,
+      shortcutCardType: 'QR',
+      detailInfo: selectedAccountNum,
+    })
   }
 
   useEffect(() => {
@@ -328,16 +320,16 @@ interface StockTypes {
   종목코드: string
 }
 
-function AddStockShortcutCard({
-  userUid,
-  updateShortcutList,
-}: {
-  userUid: string
-  updateShortcutList: () => Promise<void>
-}) {
+function AddStockShortcutCard({ userUid }: { userUid: string }) {
   const [stockInfo, setStockInfo] = useState<StockTypes[]>()
   const [selectedStock, setSelectedStock] = useState<string>()
+  const queryClient = useQueryClient()
 
+  const updateMainCard = useMutation(setShortcutDataToFirebase, {
+    onSuccess: () => {
+      queryClient.invalidateQueries('shortcutCardList')
+    },
+  })
   const handleGetStockInfo = async () => {
     const temp = await getInterestedStockInfoFromFirebase(userUid)
     setStockInfo(Object.values(temp))
@@ -351,8 +343,11 @@ function AddStockShortcutCard({
       alert('관심 주식을 선택해주세요.')
       return
     }
-    setShortcutDataToFirebase(userUid, 'Stock', selectedStock)
-    updateShortcutList()
+    updateMainCard.mutate({
+      userUid,
+      shortcutCardType: 'Stock',
+      detailInfo: selectedStock,
+    })
   }
 
   useEffect(() => {
@@ -413,16 +408,16 @@ interface ExchageRateTypes {
   환율명: string
 }
 
-function AddExchangeRateShortcutCard({
-  userUid,
-  updateShortcutList,
-}: {
-  userUid: string
-  updateShortcutList: () => Promise<void>
-}) {
+function AddExchangeRateShortcutCard({ userUid }: { userUid: string }) {
   const [exchangeRateInfo, setExchangeRateInfo] = useState<ExchageRateTypes[]>()
   const [selectedExchangeRate, setSelectedExchangeRate] = useState<string>()
+  const queryClient = useQueryClient()
 
+  const updateMainCard = useMutation(setShortcutDataToFirebase, {
+    onSuccess: () => {
+      queryClient.invalidateQueries('shortcutCardList')
+    },
+  })
   const handleGetExchageRateInfo = async () => {
     const temp = await getInterestedExchangeRateFromFirebase(userUid)
     setExchangeRateInfo(Object.values(temp))
@@ -438,8 +433,11 @@ function AddExchangeRateShortcutCard({
       alert('관심 환율을 선택해주세요.')
       return
     }
-    setShortcutDataToFirebase(userUid, 'Currency', selectedExchangeRate)
-    updateShortcutList()
+    updateMainCard.mutate({
+      userUid,
+      shortcutCardType: 'Currency',
+      detailInfo: selectedExchangeRate,
+    })
   }
 
   useEffect(() => {
