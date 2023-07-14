@@ -17,17 +17,17 @@ export default function StockInfo() {
   })
 
   //useMudataion을 이용해서 데이터 업데이트 시 서버에서 데이터 받아오기
-  const updateInterestedStockMutation = useMutation(
-    getInterestedStockInfoFromFirebase,
-    {
-      onSuccess: () => {
-        queryClient.invalidateQueries('stockData')
-      },
-    },
-  )
-  const handleUpdateStock = async () => {
-    updateInterestedStockMutation.mutate(userUid)
-  }
+  // const updateInterestedStockMutation = useMutation(
+  //   getInterestedStockInfoFromFirebase,
+  //   {
+  //     onSuccess: () => {
+  //       queryClient.invalidateQueries('stockData')
+  //     },
+  //   },
+  // )
+  // const handleUpdateStock = async () => {
+  //   updateInterestedStockMutation.mutate(userUid)
+  // }
 
   if (isLoading) {
     return <div>...Loading</div>
@@ -47,7 +47,6 @@ export default function StockInfo() {
                 stockCode={v['종목코드']}
                 stockName={v['종목명']}
                 key={v['종목코드']}
-                updateStockData={handleUpdateStock}
               />
             )
           })}
@@ -58,7 +57,7 @@ export default function StockInfo() {
           >
             관심 주식 추가 +
           </label>
-          <StockModal updateStockData={handleUpdateStock} />
+          <StockModal />
         </div>
       </div>
     </div>

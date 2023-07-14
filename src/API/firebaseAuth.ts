@@ -239,11 +239,15 @@ const getTransectionsInfo = async (userUid: string, accountNum: string) => {
   }
 }
 // 관심 주식 정보 DB에 저장
-const setInterestedStockInfoToFirebase = (
-  userUid: string,
-  stockCode: string,
-  stockName: string,
-) => {
+const setInterestedStockInfoToFirebase = async ({
+  userUid,
+  stockCode,
+  stockName,
+}: {
+  userUid: string
+  stockCode: string
+  stockName: string
+}) => {
   const stockData = {
     종목코드: stockCode,
     종목명: stockName,
@@ -273,10 +277,13 @@ const getInterestedStockInfoFromFirebase = async (userUid: string) => {
   }
 }
 // 관심 주식 삭제
-const removeInterestedStockInfoFromFirebase = async (
-  userUid: string,
-  stockCode: string,
-) => {
+const removeInterestedStockInfoFromFirebase = async ({
+  userUid,
+  stockCode,
+}: {
+  userUid: string
+  stockCode: string
+}) => {
   try {
     const updates: any = {}
     updates[`${userUid}/Stock/` + stockCode] = null

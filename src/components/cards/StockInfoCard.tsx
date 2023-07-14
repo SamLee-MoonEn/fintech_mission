@@ -6,29 +6,36 @@ import { fetchStockData } from '../../API/stockAPI'
 import { removeInterestedStockInfoFromFirebase } from '../../API/firebaseAuth'
 import { userState } from '../../store/userInfo'
 import Loading from '../Loading'
+import { useMutation, useQueryClient } from 'react-query'
 
 export default function StockInfoCard({
   stockCode,
   stockName,
-  updateStockData,
 }: {
   stockCode: string
   stockName: string
-  updateStockData: () => {}
 }) {
   const userUid = useRecoilValue(userState)
   const [stockDataList, setStockDataList] = useState([])
   const [stockCount, setStocCount] = useState(100)
   const [displayLoading, setDisplayLoading] = useState(true)
+  const queryClient = useQueryClient()
 
+  const updateInterestedStockMutation = useMutation(
+    removeInterestedStockInfoFromFirebase,
+    {
+      onSuccess: () => {
+        queryClient.invalidateQueries('stockData')
+      },
+    },
+  )
   const getStockData = async (stockCount: number) => {
     const result = await fetchStockData(stockCode, stockCount)
 
     setStockDataList(result)
   }
-  const removeStockInfo = async () => {
-    removeInterestedStockInfoFromFirebase(userUid, stockCode)
-    updateStockData()
+  const removeStockInfo = () => {
+    updateInterestedStockMutation.mutate({ userUid, stockCode })
   }
   useEffect(() => {
     getStockData(stockCount)

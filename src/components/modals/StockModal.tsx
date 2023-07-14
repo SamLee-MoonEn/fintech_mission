@@ -4,16 +4,22 @@ import { useRecoilValue } from 'recoil'
 import { fetchTickerSymbolSearcher } from '../../API/stockAPI'
 import { setInterestedStockInfoToFirebase } from '../../API/firebaseAuth'
 import { userState } from '../../store/userInfo'
+import { useMutation, useQueryClient } from 'react-query'
 
-export default function StockModal({
-  updateStockData,
-}: {
-  updateStockData: () => {}
-}) {
+export default function StockModal() {
   const userUid = useRecoilValue(userState)
   const [searchValue, setSearchValue] = useState('')
   const [searchData, setSearchData] = useState([])
+  const queryClient = useQueryClient()
 
+  const updateInterestedStockMutation = useMutation(
+    setInterestedStockInfoToFirebase,
+    {
+      onSuccess: () => {
+        queryClient.invalidateQueries('stockData')
+      },
+    },
+  )
   const handleChangeValue = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSearchValue(e.target.value)
   }
@@ -41,12 +47,11 @@ export default function StockModal({
       if (!e.target.dataset['stockcode'] || !e.target.dataset['stockname']) {
         return
       }
-      setInterestedStockInfoToFirebase(
+      updateInterestedStockMutation.mutate({
         userUid,
-        e.target.dataset['stockcode'],
-        e.target.dataset['stockname'],
-      )
-      updateStockData()
+        stockCode: e.target.dataset['stockcode'],
+        stockName: e.target.dataset['stockname'],
+      })
       resetInput()
     } catch (err) {
       console.error(err)
