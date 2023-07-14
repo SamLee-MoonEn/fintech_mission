@@ -40,7 +40,7 @@ export default function QRShortcutCard({
   }
 
   const handleAmount = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const tempAmount = Number(e.target.value)
+    const tempAmount = Number(e.target.value.replace(',', ''))
     if (isNaN(tempAmount)) {
       alert('숫자를 입력해 주세요.')
       setAmount(0)
@@ -50,6 +50,7 @@ export default function QRShortcutCard({
   }
 
   const handlePayment = () => {
+    console.log(amount)
     if (amount !== undefined) {
       payment(userUid, data.accountNum, amount)
       updateShortcut()

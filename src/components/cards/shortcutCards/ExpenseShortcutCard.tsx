@@ -41,7 +41,9 @@ export default function ExpenseShortcutCard({
         <div className="text-right text-2xl">
           {todayExpenseInfo == '0' || todayExpenseInfo == undefined
             ? '오늘의 지출정보가 없습니다.'
-            : `지출 ${todayExpenseInfo}`}
+            : `지출 ${Number(
+                todayExpenseInfo.replaceAll(',', ''),
+              ).toLocaleString('ko-kr')} 원`}
         </div>
       </div>
     </a>

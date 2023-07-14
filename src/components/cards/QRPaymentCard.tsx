@@ -39,7 +39,7 @@ export default function QRPaymentCard({
           <div className="ml-auto flex justify-end items-center mb-4">
             <input
               className="input input-bordered text-black h-10 flex-1"
-              value={amount}
+              value={amount.toLocaleString('ko-kr')}
               onChange={handlePaymentAmount}
             ></input>
             <p className="ml-4 text-black text-xl flex-grow-0">원</p>
