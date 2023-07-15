@@ -24,7 +24,7 @@ export default function AccountCard({
   const [amount, setAmount] = useState<number>(0)
 
   const handleAmount = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const tempAmount = Number(e.target.value)
+    const tempAmount = Number(e.target.value.replaceAll(',', ''))
     if (isNaN(tempAmount)) {
       alert('숫자를 입력해 주세요.')
       setAmount(0)
